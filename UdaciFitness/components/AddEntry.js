@@ -1,6 +1,7 @@
 import React , { Component } from 'react';
 import { View, Text } from 'react-native';
 import { getMetricMetaInfo } from '../utils/helpers';
+import DateHeader from './DateHeader';
 
 export default class AddEntry extends Component {
 
@@ -41,10 +42,27 @@ export default class AddEntry extends Component {
   }
 
   render(){
+    const metaInfo = getMetricMetaInfo();
+
     return (
       <View>
-        <Text> AddEntry </Text>
-        {getMetricMetaInfo('bike').getIcon()}
+        <Text> ..Add 2 temp lines so component data renders below phone status bar </Text>
+        <Text>  </Text>
+
+        <DateHeader date={(new Date()).toLocaleDateString()} />
+        <Text>  </Text>
+
+        {Object.keys(metaInfo).map(key => {
+          const { displayName, getIcon } = metaInfo[key];
+          return (
+            <View key={key}>
+              <Text> {displayName} </Text>
+              {getIcon()}
+              <Text>  </Text>
+            </View>
+          )
+        })}
+
       </View>
     )
   }
