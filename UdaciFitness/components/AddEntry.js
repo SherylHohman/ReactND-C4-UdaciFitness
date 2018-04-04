@@ -2,6 +2,9 @@ import React , { Component } from 'react';
 import { View, Text } from 'react-native';
 import { getMetricMetaInfo } from '../utils/helpers';
 import DateHeader from './DateHeader';
+import UdaciSteppers from './UdaciSteppers';
+import UdaciSlider   from './UdaciSlider';
+
 
 export default class AddEntry extends Component {
 
@@ -53,11 +56,21 @@ export default class AddEntry extends Component {
         <Text>  </Text>
 
         {Object.keys(metaInfo).map(key => {
-          const { displayName, getIcon } = metaInfo[key];
+          const { displayName, getIcon, type } = metaInfo[key];
           return (
             <View key={key}>
               <Text> {displayName} </Text>
               {getIcon()}
+
+              {(type === 'steppers')
+                ? (
+                    <UdaciSteppers />
+                  )
+                : (
+                    <UdaciSlider />
+                  )
+              }
+
               <Text>  </Text>
             </View>
           )
