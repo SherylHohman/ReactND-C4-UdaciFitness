@@ -1,8 +1,8 @@
 import React , { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { getMetricMetaInfo } from '../utils/helpers';
+import { getMetricMetaInfo, timeToString } from '../utils/helpers';
 
 import DateHeader    from './DateHeader';
 import UdaciSteppers from './UdaciSteppers';
@@ -18,6 +18,27 @@ export default class AddEntry extends Component {
     swim:  0,
     sleep: 0,
     eat:   0,
+  }
+
+  submit = () => {
+    const key = timeToString();
+    const entry = this.state;
+
+    // Update Redux
+
+    this.setState( () => ({
+      bike:  0,
+      run:   0,
+      swim:  0,
+      sleep: 0,
+      eat:   0,
+    }));
+
+    // Naviget to home
+
+    // Save to DB
+
+    // Clear local notification
   }
 
   increment = (metric) => {
@@ -103,6 +124,11 @@ export default class AddEntry extends Component {
             )
           })}
         </View>
+
+        <TextButton onPress={this.submit}>
+          SUBMIT
+        </TextButton>
+
 
       </View>
     )
