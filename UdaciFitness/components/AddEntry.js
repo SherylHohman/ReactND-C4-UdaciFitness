@@ -55,32 +55,34 @@ export default class AddEntry extends Component {
         <DateHeader date={(new Date()).toLocaleDateString()} />
         <Text>  </Text>
 
-        {Object.keys(metaInfo).map(key => {
-          const { displayName, getIcon, type, ...rest } = metaInfo[key];
-          const value = this.state[key];
-          return (
-            <View key={key}>
-              <Text> {displayName} </Text>
-              {getIcon()}
+        <View>
+          {Object.keys(metaInfo).map(key => {
+            const { displayName, getIcon, type, ...rest } = metaInfo[key];
+            const value = this.state[key];
+            return (
+              <View key={key}>
+                <Text> {displayName} </Text>
+                {getIcon()}
 
-              {(type === 'steppers')
-                ? <UdaciSteppers
-                      value={value}
-                      onIncrement={(value) => this.increment(key)}
-                      onDecrement={(value) => this.decrement(key)}
-                      { ...rest }
-                    />
-                : <UdaciSlider
-                      value={value}
-                      onChange={(value) => this.slide(key, value)}
-                      { ...rest }
-                    />
-              }
+                {(type === 'steppers')
+                  ? <UdaciSteppers
+                        value={value}
+                        onIncrement={(value) => this.increment(key)}
+                        onDecrement={(value) => this.decrement(key)}
+                        { ...rest }
+                      />
+                  : <UdaciSlider
+                        value={value}
+                        onChange={(value) => this.slide(key, value)}
+                        { ...rest }
+                      />
+                }
 
-              <Text>  </Text>
-            </View>
-          )
-        })}
+                <Text>  </Text>
+              </View>
+            )
+          })}
+        </View>
 
       </View>
     )
