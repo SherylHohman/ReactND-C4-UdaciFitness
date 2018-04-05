@@ -25,6 +25,18 @@ export default class AddEntry extends Component {
 
     // TODO: Update Redux
 
+    // TODO: Navigate to home
+
+    // TODO: Save to DB
+  }
+
+  submit = () => {
+    const key = timeToString();
+    const entry = this.state;
+
+    // TODO: Update Redux
+
+    // reset state
     this.setState( () => ({
       bike:  0,
       run:   0,
@@ -36,12 +48,6 @@ export default class AddEntry extends Component {
     // TODO: Navigate to home
 
     // TODO: Save to DB
-
-    // TODO: Clear local notification
-  }
-
-  submit = () => {
-    // const entry = this.state;
 
     // TODO: Clear local notification
   }
@@ -132,13 +138,6 @@ export default class AddEntry extends Component {
         <TextButton onPress={this.submit}>
           SUBMIT
         </TextButton>
-
-      {/* This Reset Button is TEMP for testing purposes only. Normally it ONLY appears in conditional render at top of render method */}
-        <TextButton onPress={this.reset}>
-          Reset
-        </TextButton>
-
-
 
       </View>
     )
