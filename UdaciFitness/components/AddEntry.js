@@ -14,7 +14,7 @@ export default class AddEntry extends Component {
     swim:  0,
     sleep: 0,
     eat:   0,
-}
+  }
 
   increment = (metric) => {
     const { max, step } = getMetricMetaInfo(metric);
@@ -56,19 +56,25 @@ export default class AddEntry extends Component {
         <Text>  </Text>
 
         {Object.keys(metaInfo).map(key => {
-          const { displayName, getIcon, type } = metaInfo[key];
+          const { displayName, getIcon, type, ...rest } = metaInfo[key];
+          const value = this.state[key];
           return (
             <View key={key}>
               <Text> {displayName} </Text>
               {getIcon()}
 
               {(type === 'steppers')
-                ? (
-                    <UdaciSteppers />
-                  )
-                : (
-                    <UdaciSlider />
-                  )
+                ? <UdaciSteppers
+                      value={value}
+                      onIncrement={(value) => this.increment(key)}
+                      onDecrement={(value) => this.decrement(key)}
+                      { ...rest }
+                    />
+                : <UdaciSlider
+                      value={value}
+                      onChange={(value) => this.slide(key, value)}
+                      { ...rest }
+                    />
               }
 
               <Text>  </Text>
