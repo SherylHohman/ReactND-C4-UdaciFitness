@@ -1,9 +1,13 @@
 import React , { Component } from 'react';
 import { View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
 import { getMetricMetaInfo } from '../utils/helpers';
-import DateHeader from './DateHeader';
+
+import DateHeader    from './DateHeader';
 import UdaciSteppers from './UdaciSteppers';
 import UdaciSlider   from './UdaciSlider';
+import TextButton    from './TextButton';
 
 
 export default class AddEntry extends Component {
@@ -46,6 +50,22 @@ export default class AddEntry extends Component {
 
   render(){
     const metaInfo = getMetricMetaInfo();
+
+    // if (true){   // for testing purposes only
+    if (this.props.alreadyLogged){
+      return (
+        <View>
+          <Ionicons
+            name={'ios-happy-outline'}
+            size={100}
+          />
+          <Text>You already logged data for this date</Text>
+          <TextButton onPress={this.reset}>
+            Reset
+          </TextButton>
+        </View>
+      )
+    }
 
     return (
       <View>
