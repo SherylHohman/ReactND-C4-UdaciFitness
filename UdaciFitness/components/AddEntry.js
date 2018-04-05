@@ -20,11 +20,10 @@ export default class AddEntry extends Component {
     eat:   0,
   }
 
-  submit = () => {
+  reset = () => {
     const key = timeToString();
-    const entry = this.state;
 
-    // Update Redux
+    // TODO: Update Redux
 
     this.setState( () => ({
       bike:  0,
@@ -34,11 +33,17 @@ export default class AddEntry extends Component {
       eat:   0,
     }));
 
-    // Naviget to home
+    // TODO: Navigate to home
 
-    // Save to DB
+    // TODO: Save to DB
 
-    // Clear local notification
+    // TODO: Clear local notification
+  }
+
+  submit = () => {
+    // const entry = this.state;
+
+    // TODO: Clear local notification
   }
 
   increment = (metric) => {
@@ -72,7 +77,6 @@ export default class AddEntry extends Component {
   render(){
     const metaInfo = getMetricMetaInfo();
 
-    // if (true){   // for testing purposes only
     if (this.props.alreadyLogged){
       return (
         <View>
@@ -128,6 +132,12 @@ export default class AddEntry extends Component {
         <TextButton onPress={this.submit}>
           SUBMIT
         </TextButton>
+
+      {/* This Reset Button is TEMP for testing purposes only. Normally it ONLY appears in conditional render at top of render method */}
+        <TextButton onPress={this.reset}>
+          Reset
+        </TextButton>
+
 
 
       </View>
