@@ -1,9 +1,11 @@
 import React , { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 
 import { getMetricMetaInfo, timeToString } from '../utils/helpers';
 import { submitEntry, removeEntry } from '../utils/api';
+import { receiveEntries, addEntry } from '../actions';
 
 import DateHeader    from './DateHeader';
 import UdaciSteppers from './UdaciSteppers';
@@ -11,7 +13,7 @@ import UdaciSlider   from './UdaciSlider';
 import TextButton    from './TextButton';
 
 
-export default class AddEntry extends Component {
+class AddEntry extends Component {
 
   state = {
     bike:  0,
@@ -24,7 +26,10 @@ export default class AddEntry extends Component {
   reset = () => {
     const key = timeToString();
 
-    // TODO: Update Redux
+    // Update Redux
+    this.props.dispatch(addEntry({
+      // [key]: // TODO
+    }));
 
     // TODO: Navigate to home
 
@@ -36,7 +41,10 @@ export default class AddEntry extends Component {
     const key = timeToString();
     const entry = this.state;
 
-    // TODO: Update Redux
+    // Update Redux
+    this.props.dispatch(addEntry({
+      [key]: entry,
+    }));
 
     // reset state
     this.setState( () => ({
@@ -146,3 +154,5 @@ export default class AddEntry extends Component {
     )
   }
 }
+
+export default connect()(AddEntry);
