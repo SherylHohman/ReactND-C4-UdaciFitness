@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 
-import { getMetricMetaInfo, timeToString } from '../utils/helpers';
+import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers';
 import { submitEntry, removeEntry } from '../utils/api';
 import { receiveEntries, addEntry } from '../actions';
 
@@ -24,16 +24,20 @@ class AddEntry extends Component {
   }
 
   reset = () => {
+    // key is today's date
     const key = timeToString();
 
     // Update Redux
+    // store for today will have an object with just a "today" property on it (that contains a user mesage)
+    // (in contrast, when "submt" is pressed, store and "DB" have the same entry value for "today")
     this.props.dispatch(addEntry({
-      // [key]: // TODO
+      [key]: getDailyReminderValue(),
     }));
 
     // TODO: Navigate to home
 
     // Save to "DB", actually phone's local storage
+    // "DB" (local storage) will have will be "undefined" for today
     removeEntry({ key });
   }
 
@@ -42,6 +46,7 @@ class AddEntry extends Component {
     const entry = this.state;
 
     // Update Redux
+    // store (and "DB", see below) will both have an entry for today with stats from state, above
     this.props.dispatch(addEntry({
       [key]: entry,
     }));
@@ -58,6 +63,7 @@ class AddEntry extends Component {
     // TODO: Navigate to home
 
     // Save to "DB", actually phone's local storage
+    // store (see above) has the same (unlike when "reset" is pressed)
     submitEntry({ key, entry });
 
     // TODO: Clear local notification
