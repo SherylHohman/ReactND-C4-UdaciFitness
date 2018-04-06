@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { getMetricMetaInfo, timeToString } from '../utils/helpers';
+import { submitEntry, removeEntry } from '../utils/api';
 
 import DateHeader    from './DateHeader';
 import UdaciSteppers from './UdaciSteppers';
@@ -27,7 +28,8 @@ export default class AddEntry extends Component {
 
     // TODO: Navigate to home
 
-    // TODO: Save to DB
+    // Save to "DB", actually phone's local storage
+    removeEntry({ key });
   }
 
   submit = () => {
@@ -47,7 +49,8 @@ export default class AddEntry extends Component {
 
     // TODO: Navigate to home
 
-    // TODO: Save to DB
+    // Save to "DB", actually phone's local storage
+    submitEntry({ key, entry });
 
     // TODO: Clear local notification
   }
