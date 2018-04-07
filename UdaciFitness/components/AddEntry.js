@@ -135,7 +135,7 @@ class AddEntry extends Component {
             const { displayName, getIcon, type, ...rest } = metaInfo[key];
             const value = this.state[key];
             return (
-              <View key={key}>
+              <View key={key} style={styles.row}>
                 <Text> {displayName} </Text>
                 {getIcon()}
 
@@ -177,7 +177,11 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: white,
   },
-
+  row: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+  },
   iosSubmitBtn: {
     backgroundColor: purple,
     padding: 10,
