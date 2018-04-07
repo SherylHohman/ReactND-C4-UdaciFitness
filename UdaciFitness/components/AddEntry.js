@@ -125,9 +125,7 @@ class AddEntry extends Component {
     }
 
     return (
-      <View>
-        <Text> ..Add 2 temp lines so component data renders below phone status bar </Text>
-        <Text>  </Text>
+      <View style={styles.container}>
 
         <DateHeader date={(new Date()).toLocaleDateString()} />
         <Text>  </Text>
@@ -174,6 +172,12 @@ class AddEntry extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: white,
+  },
+
   iosSubmitBtn: {
     backgroundColor: purple,
     padding: 10,
