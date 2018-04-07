@@ -111,13 +111,13 @@ class AddEntry extends Component {
 
     if (this.props.alreadyLogged){
       return (
-        <View>
+        <View style={styles.center}>
           <Ionicons
-            name={'ios-happy-outline'}
+            name={Platform.OS ==='ios' ? 'ios-happy-outline' : 'md-happy'}
             size={100}
           />
           <Text>You already logged data for this date</Text>
-          <TextButton onPress={this.reset}>
+          <TextButton onPress={this.reset} btnStyle={{padding:10}}>
             Reset
           </TextButton>
         </View>
@@ -181,6 +181,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems:     'center',
+    marginLeft: 30,
+    marginRight: 30,
+    alignSelf: 'center',
   },
   iosSubmitBtn: {
     backgroundColor: purple,
