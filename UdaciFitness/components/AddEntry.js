@@ -128,15 +128,12 @@ class AddEntry extends Component {
       <View style={styles.container}>
 
         <DateHeader date={(new Date()).toLocaleDateString()} />
-        <Text>  </Text>
 
-        <View>
           {Object.keys(metaInfo).map(key => {
             const { displayName, getIcon, type, ...rest } = metaInfo[key];
             const value = this.state[key];
             return (
               <View key={key} style={styles.row}>
-                {/*<Text> {displayName} </Text>*/}
                 {getIcon()}
 
                 {(type === 'steppers')
@@ -152,12 +149,9 @@ class AddEntry extends Component {
                         { ...rest }
                       />
                 }
-
-                <Text>  </Text>
               </View>
             )
           })}
-        </View>
 
         <TextButton onPress={this.submit}
           btnStyle={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
@@ -178,8 +172,8 @@ const styles = StyleSheet.create({
     backgroundColor: white,
   },
   row: {
-    flex: 1,
     flexDirection:  'row',
+    flex: 1,
     alignItems:     'center',
   },
   center: {
@@ -193,16 +187,16 @@ const styles = StyleSheet.create({
   iosSubmitBtn: {
     backgroundColor: purple,
     padding: 10,
-    borderRadius: 7,
     height: 45,
+    borderRadius: 7,
     marginLeft:  40,
     marginRight: 40,
   },
   androidSubmitBtn: {
     backgroundColor: purple,
     padding: 10,
-    borderRadius: 2,
     height: 45,
+    borderRadius: 2,
     marginLeft:  30,
     marginRight: 30,
 

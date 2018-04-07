@@ -14,44 +14,39 @@ export default function UdaciSteppers({ value, min, max, step, unit, onIncrement
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={onDecrement}
-              style={[styles.iosBtn, {borderTopRightRadius: 0, borderBottomRightRadius: 0}]}
+              style={[styles.iosStepBtn, {borderTopRightRadius: 0, borderBottomRightRadius: 0}]}
               >
               <Entypo name='minus' color={purple} size={30} />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={onIncrement}
-              style={[styles.iosBtn, {borderTopLeftRadius: 0, borderBottomLeftRadius: 0}]}
+              style={[styles.iosStepBtn, {borderTopLeftRadius: 0, borderBottomLeftRadius: 0}]}
               >
               <Entypo  name='plus'  color={purple} size={30} />
             </TouchableOpacity>
-\
-            <View style={styles.metricCounter}>
-              <Text style={{fontSize: 24, textAlign: 'center'}}>{value}</Text>
-              <Text style={{fontSize: 18, color: 'gray'}}>{unit}</Text>
-            </View>
           </View>
         :
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={onDecrement}
-              style={[styles.androidBtn, {borderTopRightRadius: 0, borderBottomRightRadius: 0}]}
+              style={[styles.androidStepBtn, {borderTopRightRadius: 0, borderBottomRightRadius: 0}]}
               >
               <FontAwesome name='minus' color={white} size={30} />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={onIncrement}
-              style={[styles.androidBtn, {borderTopLeftRadius: 0, borderBottomLeftRadius: 0}]}
+              style={[styles.androidStepBtn, {borderTopLeftRadius: 0, borderBottomLeftRadius: 0}]}
               >
               <FontAwesome  name='plus'  color={white} size={30} />
             </TouchableOpacity>
-            <View style={styles.metricCounter}>
-                <Text style={{fontSize: 24, textAlign: 'center'}}>{value}</Text>
-                <Text style={{fontSize: 18, color: 'gray'}}>{unit}</Text>
-            </View>
           </View>
       }
+          <View style={styles.metricCounter}>
+              <Text style={{fontSize: 24, textAlign: 'center'}}>{value}</Text>
+              <Text style={{fontSize: 18, color: 'gray'}}>{unit}</Text>
+          </View>
     </View>
   )
 }
@@ -67,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iosBtn: {
+  iosStepBtn: {
     backgroundColor: white,
     borderColor: purple,
     borderWidth:   1,
@@ -76,7 +71,7 @@ const styles = StyleSheet.create({
     paddingLeft:  25,
     paddingRight: 25,
   },
-  androidBtn: {
+  androidStepBtn: {
     backgroundColor: purple,
     borderRadius:  2,
     padding:       10,
