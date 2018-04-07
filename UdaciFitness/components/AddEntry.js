@@ -136,7 +136,7 @@ class AddEntry extends Component {
             const value = this.state[key];
             return (
               <View key={key} style={styles.row}>
-                <Text> {displayName} </Text>
+                {/*<Text> {displayName} </Text>*/}
                 {getIcon()}
 
                 {(type === 'steppers')
