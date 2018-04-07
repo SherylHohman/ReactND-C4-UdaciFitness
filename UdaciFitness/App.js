@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 import reducer from './reducers';
 import AddEntry from './components/AddEntry';
+import History from './components/History';
 
 // temp: disable showing react-native deprecation warnings in emulator
 import {YellowBox} from 'react-native';
@@ -14,7 +15,8 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={createStore(reducer)}>
-          <View style={{flex:1}}>
+          <View style={{flex:1, padding: 30}}>
+            <History />
             <AddEntry />
           </View>
       </Provider>
