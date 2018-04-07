@@ -1,25 +1,59 @@
 import React from 'react';
-import { View, Text, Slider } from 'react-native';
+import { View, Text, Slider, StyleSheet, Platform } from 'react-native';
+import { purple, gray } from '../utils/colors'
 
 export default function UdaciSlider({ value, max, step, unit, onChange }){
   return (
-    <View>
-
-      <View>
+    <View style={styles.row}>
+    {Platform.OS==='ios'
+      ?
         <Slider
+          style={styles.slider}
           value={value}
           minimumValue={0}
           maximumValue={max}
           step={step}
           onValueChange={onChange}
+          minimumTrackTintColor={purple}
         />
-      </View>
+      :
+        <Slider
+          style={styles.slider}
+          value={value}
+          minimumValue={0}
+          maximumValue={max}
+          step={step}
+          onValueChange={onChange}
+          minimumTrackTintColor={purple}
+          thumbTintColor={purple}         /* android only property */
+        />
+    }
 
-      <View>
-        <Text>Value: {value}</Text>
-        <Text>{unit}</Text>
+      <View style={styles.metricCounter}>
+        <Text style={{fontsize: 24, textAlgn: 'center'}}>
+          {value}
+        </Text>
+        <Text style={{fontsize: 18, color: 'gray'}}>
+          {unit}
+        </Text>
       </View>
 
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+  },
+  slider: {
+    flex: 1,
+  },
+  metricCounter: {
+    width: 85,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
