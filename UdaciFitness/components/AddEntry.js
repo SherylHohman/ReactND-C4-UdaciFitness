@@ -161,7 +161,7 @@ class AddEntry extends Component {
 
         <TextButton onPress={this.submit}
           btnStyle={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
-          txtStyle={styles.text}
+          txtStyle={styles.btnText}
         >
           SUBMIT
         </TextButton>
@@ -178,24 +178,24 @@ const styles = StyleSheet.create({
     backgroundColor: white,
   },
   row: {
-    flexDirection: 'row',
     flex: 1,
-    alignItems: 'center',
+    flexDirection:  'row',
+    alignItems:     'center',
   },
   center: {
     flex: 1,
     justifyContent: 'center',
     alignItems:     'center',
-    marginLeft: 30,
+    marginLeft:  30,
     marginRight: 30,
-    alignSelf: 'center',
   },
+  // TODO: can these be moved inside TextButton ?
   iosSubmitBtn: {
     backgroundColor: purple,
     padding: 10,
     borderRadius: 7,
     height: 45,
-    marginLeft: 40,
+    marginLeft:  40,
     marginRight: 40,
   },
   androidSubmitBtn: {
@@ -203,14 +203,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 2,
     height: 45,
-    marginLeft: 30,
+    marginLeft:  30,
     marginRight: 30,
 
     alignSelf: 'flex-end',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems:     'center',
   },
-  text: {
+  btnText: {
     color: white,
     fontSize: 22,
     textAlign: 'center',
