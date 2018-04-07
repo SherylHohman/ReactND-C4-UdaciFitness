@@ -1,12 +1,21 @@
+// Libraries
 import React , { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity,
+         Platform, StyleSheet
+       } from 'react-native';
+
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-
-import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers';
+// Helpers, Utils, etc
+import { getMetricMetaInfo, timeToString,
+         getDailyReminderValue
+       } from '../utils/helpers';
+import { purple, white } from '../utils/colors'
+// api
 import { submitEntry, removeEntry } from '../utils/api';
+// Actions
 import { receiveEntries, addEntry } from '../actions';
-
+// Components
 import DateHeader    from './DateHeader';
 import UdaciSteppers from './UdaciSteppers';
 import UdaciSlider   from './UdaciSlider';
@@ -152,7 +161,10 @@ class AddEntry extends Component {
           })}
         </View>
 
-        <TextButton onPress={this.submit}>
+        <TextButton onPress={this.submit}
+          btnStyle={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
+          txtStyle={styles.text}
+        >
           SUBMIT
         </TextButton>
 
@@ -160,6 +172,34 @@ class AddEntry extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  iosSubmitBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    borderRadius: 7,
+    height: 45,
+    marginLeft: 40,
+    marginRight: 40,
+  },
+  androidSubmitBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    borderRadius: 2,
+    height: 45,
+    marginLeft: 30,
+    marginRight: 30,
+
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: white,
+    fontSize: 22,
+    textAlign: 'center',
+  },
+});
 
 function mapStoreToProps(store){
   const key = timeToString();

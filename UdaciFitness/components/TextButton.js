@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native'
 
-export default function TextButton({ children, onPress }) {
+export default function TextButton({ children, onPress, btnStyle={}, txtStyle={} }) {
   return (
-      <TouchableOpacity onPress={onPress}>
-        <Text>{children}</Text>
+      <TouchableOpacity onPress={onPress} style={btnStyle}>
+        <Text style={txtStyle}>{children}</Text>
       </TouchableOpacity>
   )
 }
