@@ -6,6 +6,7 @@ import { View, Text, TouchableOpacity,
 
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
+import { AppLoading } from 'expo';
 import UdaciFitnessCalendar from 'udacifitness-calendar';
 // api
 import { fetchCalendarResults } from '../utils/api';
@@ -39,7 +40,8 @@ class History extends Component {
           }));
         }
       })
-      .then(() => this.setState(() => ({ready: true})));
+      // .then(() => this.setState(() => ({ready: true})));
+      .then(() => this.setState({ready: true}));
   }
 
   renderItem = ({ today, ...metrics }, formattedDate, key) => (
@@ -83,9 +85,13 @@ class History extends Component {
     const { entries } = this.props;
 
     if (!this.state.ready){
-      return (
-        <View><Text>fetching your data..</Text></View>
-      );
+        return (
+          <View>
+            {/* Dunno why spinner does not show. Keep Text Mssg until fixed */}
+            <AppLoading />
+            <Text style={styles.noDataText}>Loading your data..</Text>
+          </View>
+        );
     }
 
     return (

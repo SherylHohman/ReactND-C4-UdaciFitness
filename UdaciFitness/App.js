@@ -18,7 +18,7 @@ export default class App extends React.Component {
         <ScrollView>
           <View style={{flex:1, padding: 30}}>
             <History />
-            <AddEntry />
+            {/* <AddEntry /> */}
           </View>
         </ScrollView>
       </Provider>
