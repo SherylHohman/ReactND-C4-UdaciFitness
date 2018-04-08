@@ -13,6 +13,7 @@ import { fetchCalendarResults } from '../utils/api';
 import { receiveEntries, addEntry } from '../actions';
 // Components
 import DateHeader from './DateHeader';
+import MetricCard from './MetricCard';
 // Helpers, Utils, Constants, etc
 import { timeToString, getDailyReminderValue } from '../utils/helpers';
 import { white } from '../utils/colors'
@@ -55,8 +56,10 @@ class History extends Component {
               <TouchableOpacity
                 onPress={() => console.log('ToDo: navigate to metrics page')}
                 >
-                {/* TODO: replace below with a Component to style metric date */}
-                <Text>{JSON.stringify(metrics)}</Text>
+                <MetricCard
+                  metrics={metrics}
+                  date={formattedDate}
+                />
               </TouchableOpacity>
             </View>
         }
@@ -129,8 +132,8 @@ const styles = StyleSheet.create({
   },
   noDataText: {
     fontSize: 20,
-    paddingTop:    20,
-    paddingBottom: 20,
+    paddingTop:    12,
+    paddingBottom: 15,
   }
 })
 
