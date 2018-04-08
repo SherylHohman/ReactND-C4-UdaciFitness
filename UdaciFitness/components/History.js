@@ -8,9 +8,11 @@ import UdaciFitnessCalendar from 'udacifitness-calendar';
 import { fetchCalendarResults } from '../utils/api';
 // Actions
 import { receiveEntries, addEntry } from '../actions';
+// Components
+import DateHeader from './DateHeader';
 // Helpers, Utils, Constants, etc
 import { timeToString, getDailyReminderValue } from '../utils/helpers';
-import { purple, white } from '../utils/colors'
+import { white } from '../utils/colors'
 
 
 class History extends Component {
@@ -60,7 +62,7 @@ class History extends Component {
 
     if (!this.state.ready){
       return (
-        <View><Text>fetching you data..</Text></View>
+        <View><Text>fetching your data..</Text></View>
       );
     }
 
