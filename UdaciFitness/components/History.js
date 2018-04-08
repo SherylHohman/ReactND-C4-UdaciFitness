@@ -32,7 +32,7 @@ class History extends Component {
       .then( (entries) => dispatch(receiveEntries(entries)))
       .then( ({ entries }) => {
         // don't have any info entered today
-        // then set redux store for today to be "today: don't forget..."
+        // so set redux store for today to be "today: don't forget..."
         // Note: we don't put this value into the DB, only into the redux store
         if (!entries[timeToString]){
           dispatch(addEntry({
@@ -40,7 +40,6 @@ class History extends Component {
           }));
         }
       })
-      // .then(() => this.setState(() => ({ready: true})));
       .then(() => this.setState({ready: true}));
   }
 
@@ -87,7 +86,7 @@ class History extends Component {
     if (!this.state.ready){
         return (
           <View>
-            {/* Dunno why spinner does not show. Keep Text Mssg until fixed */}
+            {/* As Per docs - it's a blank scree, not a loading spinner */}
             <AppLoading />
             <Text style={styles.noDataText}>Loading your data..</Text>
           </View>
