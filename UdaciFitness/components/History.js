@@ -46,7 +46,7 @@ class History extends Component {
         }
       </View>
     )
-  renderEmptyDate({ formattedDate }){
+  renderEmptyDate(formattedDate){
     // if store has "today" value (the generic message to remember to log data today)
     // this value is not saved to "DB"/Async
     // it is only on the current date, and only in the store.
