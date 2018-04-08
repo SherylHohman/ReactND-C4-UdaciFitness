@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     padding:     20,
     marginLeft:  10,
     marginRight: 10,
-    marginTop:   17,
+    marginTop:   10,
     borderRadius: Platform.OS === 'ios' ? 16 : 2,
 
     shadowRadius: 3,
@@ -135,13 +135,19 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
+    // account for shadow on ios
+    // so bottom background of UdaciFitnessCalendar does Not get Cut Off
+    marginBottom:  Platform.OS === 'ios' ? 12 : 10,
   },
   noDataText: {
     fontSize: 20,
     paddingTop:    12,
-    paddingBottom: 15,
-  }
-})
+    paddingBottom: 10,
+    // so bottom background of UdaciFitnessCalendar does Not get Cut Off
+    // account for shadow on ios
+    marginBottom:  Platform.OS === 'ios' ? 12 : 10,
+  },
+});
 
 function mapStateToProps(store){
   const entries = store;
