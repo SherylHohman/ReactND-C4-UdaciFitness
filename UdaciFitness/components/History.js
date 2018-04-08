@@ -18,17 +18,17 @@ class History extends Component {
     const { dispatch } = this.props;
 
     fetchCalendarResults()
-      .then( (entries) => dispatch(receiveEntries(entries))
+      .then( (entries) => dispatch(receiveEntries(entries)))
       .then( ({ entries }) => {
         // don't have any info entered today
         // then set redux store for today to be "today: don't forget..."
         // Note: we don't put this value into the DB, only into the redux store
         if (!entries[timeToString]){
           dispatch(addEntry({
-            [timeToString]: getDailyReminderValue()
+            [timeToString()]: getDailyReminderValue()
           }));
         }
-      }));
+      })
   }
 
   render(){
