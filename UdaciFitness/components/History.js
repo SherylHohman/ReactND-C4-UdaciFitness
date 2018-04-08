@@ -113,6 +113,23 @@ class History extends Component {
         items={entries}
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
+
+        //  TODO: BUGGY Calendar APP (or buggy rendering due to my nested views ?)
+        //        - Why does Pull-down calendar only polulate at
+        //          top 1/2 of screen ??
+        //        - AND (IOS) more than about a month +/- from current month,
+        //          Header is very large; calendar dates are MISSING !!??
+        //        - Once a Day has been selected, ALL calendar dates DISSAPPEAR !!
+        //          Sometimes.  At one point it was BOTH platforms
+        //          Currently (since added AddEntry back to App.js),
+        //          It is only occuring on Android
+        //        - REM Android PREV issue: once an earlier date is selected
+        //          All data from that day forward will ALWAYS be shown,
+        //          Even, after select a more recent date.
+        //          For example: select today: data for today shows
+        //          Then select yesterday: data for yesterday and today shows
+        //          Now re-select today: data for YESTERDAY AND today shows.
+        //          Should now only show today.  ios works as expected
       />
     );
   }

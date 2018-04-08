@@ -16,9 +16,9 @@ export default class App extends React.Component {
     return (
       <Provider store={createStore(reducer)}>
         <ScrollView>
-          <View style={{flex:1, padding: 30}}>
+          <View style={{flex: 1}}>
             <History />
-            {/* <AddEntry /> */}
+            <AddEntry />
           </View>
         </ScrollView>
       </Provider>
