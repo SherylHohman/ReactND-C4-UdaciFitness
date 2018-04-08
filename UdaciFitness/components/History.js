@@ -1,6 +1,9 @@
 // Libraries
 import React , { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity,
+         StyleSheet, Platform
+       } from 'react-native';
+
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import UdaciFitnessCalendar from 'udacifitness-calendar';
@@ -39,10 +42,23 @@ class History extends Component {
   }
 
   renderItem = ({ today, ...metrics }, formattedDate, key) => (
-      <View>
+      <View style={styles.item}>
         {today
-          ? <Text>{JSON.stringify(today)}  </Text>
-          : <Text>{JSON.stringify(metrics)}</Text>
+          ? <View>
+              <DateHeader date={formattedDate} />
+              <Text style={styles.noDataText}>
+                {today}
+              </Text>
+            </View>
+          : <View>
+              <DateHeader date={formattedDate} />
+              <TouchableOpacity
+                onPress={() => console.log('ToDo: navigate to metrics page')}
+                >
+                {/* TODO: replace below with a Component to style metric date */}
+                <Text>{JSON.stringify(metrics)}</Text>
+              </TouchableOpacity>
+            </View>
         }
       </View>
     )
@@ -51,8 +67,11 @@ class History extends Component {
     // this value is not saved to "DB"/Async
     // it is only on the current date, and only in the store.
     return (
-      <View>
-       <Text>No Data for this Date</Text>
+      <View style={styles.item}>
+        <DateHeader date={formattedDate} />
+        <Text style={styles.noDataText}>
+          No Data for this Date
+        </Text>
       </View>
     )
   }
@@ -89,6 +108,31 @@ class History extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  item: {
+    justifyContent: 'center',
+    backgroundColor: white,
+    padding:     20,
+    marginLeft:  10,
+    marginRight: 10,
+    marginTop:   17,
+    borderRadius: Platform.OS === 'ios' ? 16 : 2,
+
+    shadowRadius: 3,
+    shadowOpacity: 0.8,
+    shadowColor: 'rgba(0, 0, 0, 0.24)',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+  },
+  noDataText: {
+    fontSize: 20,
+    paddingTop:    20,
+    paddingBottom: 20,
+  }
+})
 
 function mapStateToProps(store){
   const entries = store;
