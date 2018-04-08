@@ -17,7 +17,7 @@ import DateHeader from './DateHeader';
 import MetricCard from './MetricCard';
 // Helpers, Utils, Constants, etc
 import { timeToString, getDailyReminderValue } from '../utils/helpers';
-import { white } from '../utils/colors'
+import { white, purple } from '../utils/colors'
 
 
 class History extends Component {
@@ -114,6 +114,7 @@ class History extends Component {
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
 
+        theme={calendarTheme}
         //  TODO: BUGGY Calendar APP (or buggy rendering due to my nested views ?)
         //        - Why does Pull-down calendar only polulate at
         //          top 1/2 of screen ??
@@ -165,6 +166,15 @@ const styles = StyleSheet.create({
     marginBottom:  Platform.OS === 'ios' ? 12 : 10,
   },
 });
+
+  // match calendar colors to main app color
+  //  installed this fork : https://github.com/tylermcginnis/react-native-calendars/blob/master/src/agenda/style.js
+  //  docs (orig pre-fork): https://github.com/wix/react-native-calendars
+  const calendarTheme = {
+    selectedDayBackgroundColor: purple,
+    todayTextColor: purple,
+    dotColor: purple,
+  }
 
 function mapStateToProps(store){
   const entries = store;
