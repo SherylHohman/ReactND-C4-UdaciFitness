@@ -94,17 +94,6 @@ class History extends Component {
     }
 
     return (
-      // TODO: Android shows all prev fetched data, even when
-      //  selected date has changed to a later date.
-      //  It *should*  only show data from selected date to present.
-      //  ios is working as expected.
-      //    eg: select 7th (today) shows today.
-      //    now select 6th (yesterday). shows yesterday and today
-      //    now select 7th again. Should just show today,
-      //                          but still shows yesterday's data also.
-      // Is this a known issue with the udacifitness-calendar api ?
-      // or is my app preventing proper display, fetch, or store of data ?
-
       <UdaciFitnessCalendar
         // calendar takes 2 callbacks. It checks our (items) data, then calls
         // the appropriate callback. If the data for that date is null or not.
@@ -112,24 +101,7 @@ class History extends Component {
         items={entries}
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
-
         theme={calendarTheme}
-        //  TODO: BUGGY Calendar APP (or buggy rendering due to my nested views ?)
-        //        - Why does Pull-down calendar only polulate at
-        //          top 1/2 of screen ??
-        //        - AND (IOS) more than about a month +/- from current month,
-        //          Header is very large; calendar dates are MISSING !!??
-        //        - Once a Day has been selected, ALL calendar dates DISSAPPEAR !!
-        //          Sometimes.  At one point it was BOTH platforms
-        //          Currently (since added AddEntry back to App.js),
-        //          It is only occuring on Android
-        //        - REM Android PREV issue: once an earlier date is selected
-        //          All data from that day forward will ALWAYS be shown,
-        //          Even, after select a more recent date.
-        //          For example: select today: data for today shows
-        //          Then select yesterday: data for yesterday and today shows
-        //          Now re-select today: data for YESTERDAY AND today shows.
-        //          Should now only show today.  ios works as expected
       />
     );
   }
