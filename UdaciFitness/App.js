@@ -5,11 +5,14 @@ import { View, ScrollView, Platform, StatusBar } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';  // to get the device-specific statusBar height
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
-
+// reducers
 import reducer from './reducers';
-import AddEntry from './components/AddEntry';
-import History from './components/History';
-import { white, primaryColor, primaryColorDark, secondaryColor } from './utils/colors';
+
+// Components
+import AddEntry    from './components/AddEntry';
+import History     from './components/History';
+// Constants
+import { white, primaryColor, primaryColorDark } from './utils/colors';
 
 // disable showing react-native deprecation warnings in emulator
 import {YellowBox} from 'react-native';
