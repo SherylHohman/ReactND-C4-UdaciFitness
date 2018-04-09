@@ -11,6 +11,7 @@ import reducer from './reducers';
 // Components
 import AddEntry    from './components/AddEntry';
 import History     from './components/History';
+import EntryDetail from './components/EntryDetail';
 // Constants
 import { white, primaryColor, primaryColorDark } from './utils/colors';
 
@@ -103,6 +104,15 @@ const MainNavigation = StackNavigator(
     Home: {
       screen: Tabs,
     },
+    EntryDetail: {
+      screen: EntryDetail,
+      navigationOptions: {
+        headerTintColor: white,
+        headerStyle: {
+          backgroundColor: primaryColor,
+        }
+      }
+    }
   }
 );
 
