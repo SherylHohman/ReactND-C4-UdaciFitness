@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { getMetricMetaInfo, timeToString,
          getDailyReminderValue
        } from '../utils/helpers';
-import { purple, white } from '../utils/colors'
+import { primaryColor, white } from '../utils/colors'
 // api
 import { submitEntry, removeEntry } from '../utils/api';
 // Actions
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   // TODO: can these be moved inside TextButton ?
   iosSubmitBtn: {
-    backgroundColor: purple,
+    backgroundColor: primaryColor,
     padding: 10,
     height: 45,
     borderRadius: 7,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   androidSubmitBtn: {
-    backgroundColor: purple,
+    backgroundColor: primaryColor,
     padding: 10,
     height: 45,
     borderRadius: 2,
