@@ -97,7 +97,12 @@ const Tabs = TabNavigator(
 );
 
 // This is like react-router in a web app
-// returns a component
+// Makes this.props.navigate.navigation() and this.props.navigate
+//  available all components, so they can navigate to the "routes"/screens
+//    defined below
+//  Calling this.props.navigate.navigation('Home'), for example,
+//    will navigate the App to the (Home screen) aka render the Tabs component.
+// Returns a component
 const MainNavigation = StackNavigator(
   //  This is like defining Routes in a web app
   {
@@ -107,8 +112,10 @@ const MainNavigation = StackNavigator(
     EntryDetail: {
       screen: EntryDetail,
       navigationOptions: {
+        // color of the "back" arrow
         headerTintColor: white,
         headerStyle: {
+          // background color for the header
           backgroundColor: primaryColor,
         }
       }
