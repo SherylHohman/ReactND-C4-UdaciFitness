@@ -1,8 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { View, ScrollView, Platform } from 'react-native';
+import { View, ScrollView, Platform, StatusBar } from 'react-native';
 import { TabNavigator } from 'react-navigation';
+import { Constants } from 'expo';  // to get the device-specific statusBar height
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
 import reducer from './reducers';
@@ -13,6 +14,26 @@ import { white, primaryColor, primaryColorDark, secondaryColor } from './utils/c
 // disable showing react-native deprecation warnings in emulator
 import {YellowBox} from 'react-native';
 console.disableYellowBox = true;
+
+function UdaciStatusBar({ backgroundColor, ...props }){
+  // color blends with default statusbar color;
+  //  default is..
+  //  on ios: white => statusBarColor === background color
+  //  android: gray => statusBarColor is Darker Blend of background color
+  return (
+    <View style={{
+            backgroundColor,
+            height:Constants.statusBarHeight,
+          }}
+      >
+      <StatusBar
+        translucent
+        backgroundColor={backgroundColor}
+        {...props}
+      />
+    </View>
+  );
+}
 
 // returns a component
 const Tabs = TabNavigator(
@@ -75,7 +96,11 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={createStore(reducer)}>
-          <View style={{flex: 1, paddingTop: 24}}>
+          <View style={{flex: 1}}>
+            <UdaciStatusBar
+              backgroundColor={primaryColor}
+              barStyle="light-content"
+              />
             <Tabs />
           </View>
       </Provider>
