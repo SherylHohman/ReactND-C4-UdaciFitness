@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { View, ScrollView, Platform, StatusBar } from 'react-native';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';  // to get the device-specific statusBar height
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
@@ -35,6 +35,7 @@ function UdaciStatusBar({ backgroundColor, ...props }){
   );
 }
 
+// this is like a nav bar in a web app
 // returns a component
 const Tabs = TabNavigator(
   // this first argument defines the tabs
@@ -91,6 +92,16 @@ const Tabs = TabNavigator(
   }
 );
 
+// This is like react-router in a web app
+// returns a component
+const MainNavigation = StackNavigator(
+  //  This is like defining Routes in a web app
+  {
+    Home: {
+      screen: Tabs,
+    },
+  }
+);
 
 export default class App extends React.Component {
   render() {
@@ -101,7 +112,7 @@ export default class App extends React.Component {
               backgroundColor={primaryColor}
               barStyle="light-content"
               />
-            <Tabs />
+            <MainNavigation />
           </View>
       </Provider>
     );
