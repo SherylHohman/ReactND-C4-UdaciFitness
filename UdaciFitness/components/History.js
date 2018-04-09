@@ -55,7 +55,16 @@ class History extends Component {
           : <View>
               <DateHeader date={formattedDate} />
               <TouchableOpacity
-                onPress={() => console.log('ToDo: navigate to metrics page')}
+                /* this.props.navigation.navigate is automatically passed in */
+                /* by MainNavigation (a StackNavigator component) defined in App.js */
+                /* any "route" (key Name) defined in MainNavigation */
+                /* can be navigated to via its navigate() method */
+                onPress={() => this.props.navigation.navigate(
+                  'EntryDetail',
+                  /* below value will be passed in to the 'EntryDetail' component (above) */
+                  /* as: this.props.navigation.state.params.entryId*/
+                  { entryId: key }
+                )}
                 >
                 <MetricCard
                   metrics={metrics}
