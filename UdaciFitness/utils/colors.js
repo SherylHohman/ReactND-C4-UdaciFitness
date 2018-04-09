@@ -16,14 +16,30 @@
 //    Although, swapping out the purple for blue, and leaving the design specs
 //    the same otherwise, helps TREMENDOUSLY.  white on color actually looks fine, now.
 
+
+const yellow45 = '#e6e600';
+const yellow40 = '#cccc00'; //darker
+
+const orange60 = '#ffad33'; //lighter
+//    orange50 = '#ff9900'  //orange
+const orange45 = '#e68a00'; //darker    (best for ios button outline)
+const orange43 = '#db8400'; //dark      (best compromise for ios button and android tab)
+const orange42 = '#d68100';
+const orange40 = '#cc7a00'; //too dark  (best for tab underline)
+export const primaryColor = 'orange'          //  'gray'
+// export const primaryColorLight = orange60; // yellow40
+export const primaryColorDark  = orange43;    // yellow40  // 'darkgray'
+// export const secondaryColor = yellow40;    // gray;
+
+
 // export const purple = '#483FAF'
-// export const purple = '#463AAB'  // this one looks ok, too, it's just slightly darker
 // HACK: copy "blue" into the purple name
 //  to use blue color, without changing "purple" ref throughout app
-// export const purple = '#1e7b1e'     //green
-export const purple = '#4b49b6'  // barely darker than blue (see below)
+// export const purple = '#4b49b6'  // barely darker than blue (see below)
 // export const purple = '#4e4cb8'  // blue (see below)
+// export const purple = '#463AAB'  // this one looks ok, too, it's just slightly darker
 
+// Orig "purple" CLASHES ! - particularly evident on Android as it's used for button backgrounds
 // export const purple = '#292477'
 export const gray = '#757575'
 export const white = '#fff'

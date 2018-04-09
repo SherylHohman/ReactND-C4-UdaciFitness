@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity,
        } from 'react-native';
 
 import { FontAwesome, Entypo } from '@expo/vector-icons';
-import { white, purple, gray } from '../utils/colors'
+import { white, gray, primaryColor } from '../utils/colors'
 
 export default function UdaciSteppers({ value, min, max, step, unit, onIncrement, onDecrement }){
   return (
@@ -16,14 +16,14 @@ export default function UdaciSteppers({ value, min, max, step, unit, onIncrement
               onPress={onDecrement}
               style={[styles.iosStepBtn, {borderTopRightRadius: 0, borderBottomRightRadius: 0}]}
               >
-              <Entypo name='minus' color={purple} size={30} />
+              <Entypo name='minus' color={primaryColor} size={30} />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={onIncrement}
               style={[styles.iosStepBtn, {borderTopLeftRadius: 0, borderBottomLeftRadius: 0}]}
               >
-              <Entypo  name='plus'  color={purple} size={30} />
+              <Entypo  name='plus'  color={primaryColor} size={30} />
             </TouchableOpacity>
           </View>
         :
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   iosStepBtn: {
     backgroundColor: white,
-    borderColor: purple,
+    borderColor: '#cc7a00',//==orange40,  //'#e68a00',//==orange45, //purple,
     borderWidth:   1,
     borderRadius:  3,
     padding:       5,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
   androidStepBtn: {
-    backgroundColor: purple,
+    backgroundColor: primaryColor,
     borderRadius:  2,
     padding:       10,
     margin: 5,

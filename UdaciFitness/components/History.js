@@ -17,7 +17,7 @@ import DateHeader from './DateHeader';
 import MetricCard from './MetricCard';
 // Helpers, Utils, Constants, etc
 import { timeToString, getDailyReminderValue } from '../utils/helpers';
-import { white, purple } from '../utils/colors'
+import { white, primaryColor, primaryColorLighter, secondaryColor } from '../utils/colors'
 
 
 class History extends Component {
@@ -170,9 +170,9 @@ const styles = StyleSheet.create({
   //  installed this fork : https://github.com/tylermcginnis/react-native-calendars/blob/master/src/agenda/style.js
   //  docs (orig pre-fork): https://github.com/wix/react-native-calendars
   const calendarTheme = {
-    selectedDayBackgroundColor: purple,
-    todayTextColor: purple,
-    dotColor: purple,
+    selectedDayBackgroundColor: primaryColor,
+    todayTextColor: primaryColor,
+    dotColor: primaryColor,
   }
 
 function mapStateToProps(store){

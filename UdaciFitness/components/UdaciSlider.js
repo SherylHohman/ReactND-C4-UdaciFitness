@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Slider, StyleSheet, Platform } from 'react-native';
-import { purple, gray } from '../utils/colors'
+import { gray, primaryColor } from '../utils/colors'
 
 export default function UdaciSlider({ value, max, step, unit, onChange }){
   return (
@@ -14,7 +14,7 @@ export default function UdaciSlider({ value, max, step, unit, onChange }){
           maximumValue={max}
           step={step}
           onValueChange={onChange}
-          minimumTrackTintColor={purple}
+          minimumTrackTintColor={primaryColor}
         />
       :
         <Slider
@@ -24,8 +24,8 @@ export default function UdaciSlider({ value, max, step, unit, onChange }){
           maximumValue={max}
           step={step}
           onValueChange={onChange}
-          minimumTrackTintColor={purple}
-          thumbTintColor={purple}         /* android only property */
+          minimumTrackTintColor={primaryColor}
+          thumbTintColor={primaryColor}         /* android only property */
         />
     }
 
