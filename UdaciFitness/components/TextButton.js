@@ -5,13 +5,13 @@ import { primaryColor } from '../utils/colors';
 export default function TextButton({ children, onPress, btnStyle={}, txtStyle={} }) {
   return (
       <TouchableOpacity onPress={onPress} style={btnStyle}>
-        <Text style={[styles.reset, txtStyle]}>{children}</Text>
+        <Text style={[styles.txtDefault, txtStyle]}>{children}</Text>
       </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
-  reset: {
+  txtDefault: {
     textAlign: 'center',
     color: primaryColor,
   }
