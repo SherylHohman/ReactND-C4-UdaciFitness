@@ -1,5 +1,11 @@
 import React , { Component } from 'react';
-import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, StyleSheet } from 'react-native';
+// Components
+import MetricCard from './MetricCard';
+import TextButton from './TextButton';
+// Constants
+import { white } from '../utils/colors';
 
 class EntryDetail extends Component{
 
@@ -27,24 +33,44 @@ class EntryDetail extends Component{
   }
 
   render () {
-
-    // this.pros.navigation is passed in via StackNavigator (Main Navigation component)
-    // ...state.params.entryId is passed in from the component that requested
-    // navigation to this page when it called navigation.navigate('EntryDetail')
-    //   any user defined props passed in when calling a StackNavigator
-    //   navigate() method will be found on navigation's
-    //   "params" property.
-    const entryId = this.props.navigation.state.params.entryId;
-
     return (
-      <View>
-        <Text>
-          Entry Detail Page for: {'\n'}
-          {entryId}
-        </Text>
+      <View style={styles.container}>
+        <MetricCard metrics={this.props.metrics}/>
+        <TextButton
+        onPress={() => {}}
+        btnStyle={{}}
+        >
+        Reset
+        </TextButton>
       </View>
     )
   };
 }
 
-export default EntryDetail
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: white,
+    padding: 15,
+  },
+});
+
+function mapStateToProps(store, { navigation }){
+  // navigation is a prop automatically passed in by StackNavigator
+  // props passed in/created by me from the "calling" component
+  //  when I called navigation.navigate()
+  //  get placed inside navigation.state.params by StackNavigator
+    const { entryId } = navigation.state.params;
+
+    // (store === metrics data)
+    // get the metrics data saved for this date
+    const metric = store[entryId];
+
+    return {
+      // date we want Entry Detail for
+      entryId,
+      metrics,
+    }
+}
+
+export default connect(mapStateToProps)(EntryDetail)
