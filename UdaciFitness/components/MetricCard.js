@@ -7,12 +7,14 @@ import DateHeader from './DateHeader'
 import { getMetricMetaInfo } from '../utils/helpers'
 import { gray } from '../utils/colors'
 
-export default function MetricCard({ date, metrics }) {
+export default function MetricCard({ metrics, date=null }) {
     return (
       <View>
-        {/* I put my DateHeader in the calling component */}
+        {/* - EntryDetail page diplays date in Header via StackNavigator */}
+        {/* - and I chose to render my DateHeader from History component */}
         {/* this component just renders the metrics for today */}
         {/* {date && <DateHeader date={date} />} */}
+        {/* TODO: I *could* remove `date`, as it is not needed */}
         {Object.keys(metrics)
           .map((metric) => {
             const { getIcon, displayName, unit } = getMetricMetaInfo(metric);
