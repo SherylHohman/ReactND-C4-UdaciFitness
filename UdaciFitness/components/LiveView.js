@@ -11,7 +11,7 @@ class LiveView extends Component{
   state = {
     coords:     null,
     direction:  '',
-    status:     'denied',   //Permissions
+    status:     'granted',   //Permissions
     // TODO: reset status to null when finish coding UI for each value
   }
 
@@ -59,8 +59,38 @@ class LiveView extends Component{
     }
     // (else) permission is granted
     return (
-      <View>
-          <Text>{JSON.stringify(this.state)}</Text>
+      <View style={styles.container}>
+
+        <View style={styles.directionContainer}>
+          <Text style={styles.header}>You're heading</Text>
+          <Text style={styles.direction}>
+            {/* TODO: swap Hard Coded values for Live values */}
+            North
+          </Text>
+        </View>
+
+        <View style={styles.metricContainer}>
+          <View style={styles.metric}>
+            <Text style={[styles.header, {color: white}]}>
+              Altitude
+            </Text>
+            <Text style={[styles.subHeader, {color: white}]}>
+              {/* TODO: swap Hard Coded values for Live values */}
+              {200} feet
+            </Text>
+          </View>
+
+          <View style={styles.metric}>
+            <Text style={[styles.header, {color: white}]}>
+              Speed
+            </Text>
+            <Text style={[styles.subHeader, {color: white}]}>
+              {/* TODO: swap Hard Coded values for Live values */}
+              {300} MPH
+            </Text>
+          </View>
+        </View>
+
       </View>
     );
   }
@@ -68,6 +98,10 @@ class LiveView extends Component{
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between'
+  },
   center: {
     flex: 1,
     justifyContent: 'center',
@@ -85,7 +119,40 @@ const styles = StyleSheet.create({
   buttonText :{
     color: white,
     fontSize: 20,
-  }
+  },
+  directionContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  header: {
+    fontSize: 35,
+    textAlign: 'center',
+  },
+  direction: {
+    color: primaryColor,
+    fontSize: 120,
+    textAlign: 'center',
+  },
+  metricContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: primaryColor,
+  },
+  metric: {
+    flex: 1,
+    paddingTop: 15,
+    paddingBottom: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  subHeader: {
+    fontSize: 25,
+    textAlign: 'center',
+    marginTop: 5,
+  },
 })
 
 export default LiveView
