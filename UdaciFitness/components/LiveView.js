@@ -11,8 +11,7 @@ class LiveView extends Component{
   state = {
     coords:     null,
     direction:  '',
-    status:     'granted',   //Permissions
-    // TODO: reset status to null when finish coding UI for each value
+    status:     null,   //Permissions
   }
 
   askPermission(){
@@ -57,42 +56,45 @@ class LiveView extends Component{
         </View>
       );
     }
-    // (else) permission is granted
-    return (
-      <View style={styles.container}>
+    // best to check this explicitly!! (as opposed to an "else" assumption)
+    if (status === 'granted'){
+      return (
+        <View style={styles.container}>
 
-        <View style={styles.directionContainer}>
-          <Text style={styles.header}>You're heading</Text>
-          <Text style={styles.direction}>
-            {/* TODO: swap Hard Coded values for Live values */}
-            North
-          </Text>
-        </View>
-
-        <View style={styles.metricContainer}>
-          <View style={styles.metric}>
-            <Text style={[styles.header, {color: white}]}>
-              Altitude
-            </Text>
-            <Text style={[styles.subHeader, {color: white}]}>
+          <View style={styles.directionContainer}>
+            <Text style={styles.header}>You're heading</Text>
+            <Text style={styles.direction}>
               {/* TODO: swap Hard Coded values for Live values */}
-              {200} feet
+              North
             </Text>
           </View>
 
-          <View style={styles.metric}>
-            <Text style={[styles.header, {color: white}]}>
-              Speed
-            </Text>
-            <Text style={[styles.subHeader, {color: white}]}>
-              {/* TODO: swap Hard Coded values for Live values */}
-              {300} MPH
-            </Text>
-          </View>
-        </View>
+          <View style={styles.metricContainer}>
+            <View style={styles.metric}>
+              <Text style={[styles.header, {color: white}]}>
+                Altitude
+              </Text>
+              <Text style={[styles.subHeader, {color: white}]}>
+                {/* TODO: swap Hard Coded values for Live values */}
+                {200} feet
+              </Text>
+            </View>
 
-      </View>
-    );
+            <View style={styles.metric}>
+              <Text style={[styles.header, {color: white}]}>
+                Speed
+              </Text>
+              <Text style={[styles.subHeader, {color: white}]}>
+                {/* TODO: swap Hard Coded values for Live values */}
+                {300} MPH
+              </Text>
+            </View>
+          </View>
+
+        </View>
+      );
+    }
+    // could move the "undetermined" option here as the default catch-all
   }
 
 }
