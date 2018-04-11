@@ -1,13 +1,22 @@
 // Libraries
 import React , { Component } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity,
+         ActivityIndicator, StyleSheet
+       } from 'react-native';
+import { Foundation } from '@expo/vector-icons';
+import { white, primaryColor } from '../utils/colors';
 
 class LiveView extends Component{
 
   state = {
     coords:     null,
     direction:  '',
-    status:     null,   //permissions
+    status:     'undetermined',   //Permissions
+    // TODO: reset status to null when finish coding UI for each value
+  }
+
+  askPermission(){
+    // TODO: open/enable Phone's Location Permissions
   }
 
   render() {
@@ -30,8 +39,17 @@ class LiveView extends Component{
     if (status === 'undetermined'){
       // user has neither granted nor denied the permission
       return (
-        <View>
-          <Text>Phone Permissions Undetermined</Text>
+        <View style={styles.center}>
+          <Foundation name='alert' size={50} />  {/* this is an icon */}
+          <Text>You need to enable Location Services</Text>
+          <Text>in order to view this page</Text>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.onPress}
+            >
+            <Text>Enable</Text>
+          </TouchableOpacity>
         </View>
       );
     }
