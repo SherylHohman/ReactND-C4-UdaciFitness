@@ -75,16 +75,34 @@ class History extends Component {
         }
       </View>
     )
-  renderEmptyDate(formattedDate){
+  renderEmptyDate = (formattedDate) => {
     // if store has "today" value (the generic message to remember to log data today)
     // this value is not saved to "DB"/Async
     // it is only on the current date, and only in the store.
+
+    // To allow adding data for this date.
+    // calendar does not pass in 'key' (this date, in the format required for calendar)
+    //  for this callback, so re-create it here:
+    //  Convert formattedDate to timeToString format.
+    //  (formattedDate is a Date.toLocalDateFormat format, so parse *should* work)
+    const key = timeToString(Date.parse(formattedDate));
+
     return (
       <View style={styles.item}>
         <DateHeader date={formattedDate} />
-        <Text style={styles.noDataText}>
-          No Data for this Date
-        </Text>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate(
+              'AddEntry',
+              /* below value will be passed into the component */
+              /* as: this.props.navigation.state.params.entryId*/
+              { entryId: key }
+            )}
+            >
+            <Text style={styles.noDataText}>
+              No Data Logged for this Date {'\n'}
+              Click to Add
+            </Text>
+          </TouchableOpacity>
       </View>
     )
   }

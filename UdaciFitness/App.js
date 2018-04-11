@@ -119,7 +119,19 @@ const MainNavigation = StackNavigator(
           backgroundColor: primaryColor,
         }
       }
-    }
+    },
+    // I am adding this so user can add data for a date other than "today"
+    AddEntry: {
+      screen: AddEntry,
+      navigationOptions: {
+        // color of the "back" arrow
+        headerTintColor: white,
+        headerStyle: {
+          // background color for the header
+          backgroundColor: primaryColor,
+        }
+      }
+    },
   }
 );
 
