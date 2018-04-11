@@ -129,32 +129,35 @@ class AddEntry extends Component {
 
         <DateHeader date={(new Date()).toLocaleDateString()} />
 
-          {Object.keys(metaInfo).map(key => {
-            const { displayName, getIcon, type, ...rest } = metaInfo[key];
-            const value = this.state[key];
-            return (
-              <View key={key} style={styles.row}>
-                {getIcon()}
+        {Object.keys(metaInfo).map(key => {
+          const { displayName, getIcon, type, ...rest } = metaInfo[key];
+          const value = this.state[key];
+          return (
+            <View key={key} style={styles.row}>
+              {getIcon()}
 
-                {(type === 'steppers')
-                  ? <UdaciSteppers
-                        value={value}
-                        onIncrement={(value) => this.increment(key)}
-                        onDecrement={(value) => this.decrement(key)}
-                        { ...rest }
-                      />
-                  : <UdaciSlider
-                        value={value}
-                        onChange={(value) => this.slide(key, value)}
-                        { ...rest }
-                      />
-                }
-              </View>
-            )
-          })}
+              {(type === 'steppers')
+                ? <UdaciSteppers
+                      value={value}
+                      onIncrement={(value) => this.increment(key)}
+                      onDecrement={(value) => this.decrement(key)}
+                      { ...rest }
+                    />
+                : <UdaciSlider
+                      value={value}
+                      onChange={(value) => this.slide(key, value)}
+                      { ...rest }
+                    />
+              }
+            </View>
+          )
+        })}
 
         <TextButton onPress={this.submit}
-          btnStyle={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
+          btnStyle={Platform.OS === 'ios'
+            ? styles.iosSubmitBtn
+            : styles.androidSubmitBtn
+          }
           txtStyle={styles.btnText}
         >
           SUBMIT
@@ -217,25 +220,19 @@ function mapStoreToProps(store){
   return {
     alreadyLogged: (store[key] && (typeof store[key].today === 'undefined')),
   }
-  // if today's data was reset, then store for today will have an unusual value:
-  // it won't be defined, instead we set it to a custome message, that is stored
-  //  in the property "today".  `today` will be the 1 and only key in "entry"
-  //  However, note that this "today" property is NOT saved to the database.
-  // so it is local, transient, and unique to "today" only.  And ONLY if we
-  // cleared/deleted already saved values.
-  // If no values have been previously saved, then store[key] will NOT EVEN EXIST ("undefined")
-  // REM "key" is today's date (in the format required b the calendar library).
-
 }
 
 export default connect(mapStoreToProps)(AddEntry);
 
+  // Note: for alreadyLogged, and the 'today' property (store[someDate].today)
+    // If today's data was reset, then store for today will have an unusual value:
+    // it won't be defined, instead it is set to a custome message that is stored
+    //  in the property "today".
+    //  `today` will be the 1 and only key in "entry"
+    //  However, note that this "today" property is NOT saved to the database.
+    // so it is local, transient, and unique to "today" only.  And ONLY if we
+    // cleared/deleted already saved values.
+    // If no values have been previously saved for this date, then
+    // store[someDate] will NOT EVEN EXIST ("undefined")
+    // REM "someDate" is a date in the format required by the calendar library).
 
-  // Question: key is a reference to today's date.
-    // We keep re-computing it, rather than just setting it here for props, where we reference it later.
-    // If we go past midnight, then the date referenced when an entry is later saved to the DB
-    // would then get saved as "tomorrow" (possible problem if time changes while entering)
-    //  ..additionally, the "already logged" variable could become out of synch
-    //  so the View could show "already logged today..", or "remember to log" when it should not.
-    //  They probably have us doing the "better case" scenario.  But it's worth considering
-    //  noticing, and/or thinking about.
