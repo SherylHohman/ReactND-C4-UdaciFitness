@@ -11,7 +11,7 @@ class LiveView extends Component{
   state = {
     coords:     null,
     direction:  '',
-    status:     'undetermined',   //Permissions
+    status:     'denied',   //Permissions
     // TODO: reset status to null when finish coding UI for each value
   }
 
@@ -31,8 +31,12 @@ class LiveView extends Component{
     if (status === 'denied'){
       // user has denied this permission
       return (
-        <View>
-          <Text>Phone Permissions Denied</Text>
+        <View style={styles.center}>
+          <Foundation name='alert' size={50} />
+          <Text>
+            You denied your location.
+            You can fix this by visiting your settings and enabling location services for this app.
+          </Text>
         </View>
       );
     }
