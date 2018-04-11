@@ -12,6 +12,7 @@ import reducer from './reducers';
 import AddEntry    from './components/AddEntry';
 import History     from './components/History';
 import EntryDetail from './components/EntryDetail';
+import LiveView from './components/LiveView';
 // Constants
 import { white, primaryColor, primaryColorDark } from './utils/colors';
 
@@ -60,6 +61,14 @@ const Tabs = TabNavigator(
         tabBarLabel: 'Add Entry',
         tabBarIcon: ({ tintColor }) => // icons only show in ios
           <FontAwesome name='plus-square' size={30} color={tintColor} />
+      },
+    },
+    LiveView: {
+      screen: LiveView,
+      navigationOptions: {
+        tabBarLabel: 'Compass',
+        tabBarIcon: ({ tintColor }) => // icons only show in ios
+          <Ionicons name='ios-speedometer' size={30} color={tintColor} />
       },
     },
   },
