@@ -33,17 +33,24 @@ class AddEntry extends Component {
   }
 
   reset = () => {
-    // key is today's date
-    const key = timeToString();
+    // key is the date we are resetting data for
+    const key = this.props.entryId;
 
     // Update Redux
-    // store for today will have an object with just a "today" property on it (that contains a user mesage)
-    // (in contrast, when "submt" is pressed, store and "DB" have the same entry value for "today")
-    this.props.dispatch(addEntry({
-      [key]: getDailyReminderValue(),
-    }));
+    // store for today will have an object with just a "today" property on it
+    // (that contains a user mesage). This does *not* get saved to the DB.
+    // (in contrast, when "submit" is pressed, store and "DB" have the same value: entry)
+    if (isToday) {
+      this.props.dispatch(addEntry({
+        [key]: getDailyReminderValue(),
+      }));
+    }
 
-    // TODO: Navigate to home
+    // Return to History id got here from a card,
+    // or go Home, if got here by clicking on 'AddEntry' Tab
+    //  (b/c Home is the only location that shows the 'AddEntry' Tab)
+    //  (If that changes, this line may need to be edited)
+    this.props.navigation.goBack();
 
     // Save to "DB", actually phone's local storage
     // "DB" (local storage) will have will be "undefined" for today
@@ -51,14 +58,20 @@ class AddEntry extends Component {
   }
 
   submit = () => {
-    const key = timeToString();
+
+    const key = this.props.entryId;
     const entry = this.state;
 
-    // Update Redux
-    // store (and "DB", see below) will both have an entry for today with stats from state, above
+    // Clear local notification:
+    // Update Redux store
+    // replace 'today' property with metric stats from state
     this.props.dispatch(addEntry({
       [key]: entry,
     }));
+
+    // Save to "DB", (phone's local storage, actually)
+    // redux store (see above) gets the same data (unlike when "reset" is pressed)
+    submitEntry({ key, entry });
 
     // reset state
     this.setState( () => ({
@@ -69,13 +82,11 @@ class AddEntry extends Component {
       eat:   0,
     }));
 
-    // TODO: Navigate to home
-
-    // Save to "DB", actually phone's local storage
-    // store (see above) has the same (unlike when "reset" is pressed)
-    submitEntry({ key, entry });
-
-    // TODO: Clear local notification
+    // Returns to History if got here from a card,
+    // or goes Home, if got here by clicking on 'AddEntry' Tab
+    //  (b/c Home is the only location that shows the 'AddEntry' Tab)
+    //  (If that changes, this line may need to be edited)
+    this.props.navigation.goBack();
   }
 
   increment = (metric) => {
@@ -116,7 +127,10 @@ class AddEntry extends Component {
             name={Platform.OS ==='ios' ? 'ios-happy-outline' : 'md-happy'}
             size={100}
           />
-          <Text>You already logged data for this date</Text>
+          {this.props.isToday
+            ? <Text>You already logged data for today</Text>
+            : <Text>You already logged data for this date</Text>
+          }
           <TextButton onPress={this.reset} btnStyle={{padding:10}}>
             Reset
           </TextButton>
@@ -127,34 +141,37 @@ class AddEntry extends Component {
     return (
       <View style={styles.container}>
 
-        <DateHeader date={(new Date()).toLocaleDateString()} />
+        <DateHeader date={Date.parse(this.props.entryId).toLocaleDateString} />
 
-          {Object.keys(metaInfo).map(key => {
-            const { displayName, getIcon, type, ...rest } = metaInfo[key];
-            const value = this.state[key];
-            return (
-              <View key={key} style={styles.row}>
-                {getIcon()}
+        {Object.keys(metaInfo).map(key => {
+          const { displayName, getIcon, type, ...rest } = metaInfo[key];
+          const value = this.state[key];
+          return (
+            <View key={key} style={styles.row}>
+              {getIcon()}
 
-                {(type === 'steppers')
-                  ? <UdaciSteppers
-                        value={value}
-                        onIncrement={(value) => this.increment(key)}
-                        onDecrement={(value) => this.decrement(key)}
-                        { ...rest }
-                      />
-                  : <UdaciSlider
-                        value={value}
-                        onChange={(value) => this.slide(key, value)}
-                        { ...rest }
-                      />
-                }
-              </View>
-            )
-          })}
+              {(type === 'steppers')
+                ? <UdaciSteppers
+                      value={value}
+                      onIncrement={(value) => this.increment(key)}
+                      onDecrement={(value) => this.decrement(key)}
+                      { ...rest }
+                    />
+                : <UdaciSlider
+                      value={value}
+                      onChange={(value) => this.slide(key, value)}
+                      { ...rest }
+                    />
+              }
+            </View>
+          )
+        })}
 
         <TextButton onPress={this.submit}
-          btnStyle={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
+          btnStyle={Platform.OS === 'ios'
+            ? styles.iosSubmitBtn
+            : styles.androidSubmitBtn
+          }
           txtStyle={styles.btnText}
         >
           SUBMIT
@@ -211,31 +228,51 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStoreToProps(store){
-  const key = timeToString();
+function mapStoreToProps(store, ownProps){
+  // App defaults to set key to today's date, in the required format.
+  // App in the coursework only allows one to add data for the current day.
+  // To allow adding data for a date that is not today,
+  //   I'm adding an optional param to be passed in: entryId
+  //   entryId is the date we want to edit the data for.
+  //   if it is not passed in, we assume it to be today, the default app behavior
+
+  const dateToday = timeToString();
+  const { entryId } = ownProps.navigation.state.params;
+
+  const key = entryId || ownProps.entryId || dateToday;
+  const isToday = (key === dateToday);
+
+  const alreadyLogged = (
+    (!isToday && store[key]) ||
+    (isToday && store[dateToday] && (typeof store[dateToday].today === 'undefined'))
+  );
+
+  console.log('key:', key, 'isToday:', isToday, 'alreadyLogged:', alreadyLogged);
 
   return {
-    alreadyLogged: (store[key] && (typeof store[key].today === 'undefined')),
+    entryId: key,   // cannot have a property called "key" on props. See notes below.
+    isToday,
+    alreadyLogged,
   }
-  // if today's data was reset, then store for today will have an unusual value:
-  // it won't be defined, instead we set it to a custome message, that is stored
-  //  in the property "today".  `today` will be the 1 and only key in "entry"
-  //  However, note that this "today" property is NOT saved to the database.
-  // so it is local, transient, and unique to "today" only.  And ONLY if we
-  // cleared/deleted already saved values.
-  // If no values have been previously saved, then store[key] will NOT EVEN EXIST ("undefined")
-  // REM "key" is today's date (in the format required b the calendar library).
-
 }
 
 export default connect(mapStoreToProps)(AddEntry);
 
+  // Warning: AddEntry: `key` is not a prop.
+    // Trying to access it will result in `undefined` being returned.
+    // If you need to access the same value within the child component,
+    // you should pass it as a different prop.
+    // (https://fb.me/react-special-props)
 
-  // Question: key is a reference to today's date.
-    // We keep re-computing it, rather than just setting it here for props, where we reference it later.
-    // If we go past midnight, then the date referenced when an entry is later saved to the DB
-    // would then get saved as "tomorrow" (possible problem if time changes while entering)
-    //  ..additionally, the "already logged" variable could become out of synch
-    //  so the View could show "already logged today..", or "remember to log" when it should not.
-    //  They probably have us doing the "better case" scenario.  But it's worth considering
-    //  noticing, and/or thinking about.
+  // Note: for alreadyLogged, and the 'today' property (store[someDate].today)
+    // If today's data was reset, then store for today will have an unusual value:
+    // it won't be defined, instead it is set to a custome message that is stored
+    //  in the property "today".
+    //  `today` will be the 1 and only key in "entry"
+    //  However, note that this "today" property is NOT saved to the database.
+    // so it is local, transient, and unique to "today" only.  And ONLY if we
+    // cleared/deleted already saved values.
+    // If no values have been previously saved for this date, then
+    // store[someDate] will NOT EVEN EXIST ("undefined")
+    // REM "someDate" is a date in the format required by the calendar library).
+

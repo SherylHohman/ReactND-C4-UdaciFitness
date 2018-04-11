@@ -75,16 +75,34 @@ class History extends Component {
         }
       </View>
     )
-  renderEmptyDate(formattedDate){
+  renderEmptyDate = (formattedDate) => {
     // if store has "today" value (the generic message to remember to log data today)
     // this value is not saved to "DB"/Async
     // it is only on the current date, and only in the store.
+
+    // To allow adding data for this date.
+    // calendar does not pass in 'key' (this date, in the format required for calendar)
+    //  for this callback, so re-create it here:
+    //  Convert formattedDate to timeToString format.
+    //  (formattedDate is a Date.toLocalDateFormat format, so parse *should* work)
+    const key = timeToString(Date.parse(formattedDate));
+
     return (
       <View style={styles.item}>
         <DateHeader date={formattedDate} />
-        <Text style={styles.noDataText}>
-          No Data for this Date
-        </Text>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate(
+              'AddEntry',
+              /* below value will be passed into the component */
+              /* as: this.props.navigation.state.params.entryId*/
+              { entryId: key }
+            )}
+            >
+            <Text style={styles.noDataText}>
+              No Data Logged for this Date {'\n'}
+              Click to Add
+            </Text>
+          </TouchableOpacity>
       </View>
     )
   }
@@ -103,17 +121,6 @@ class History extends Component {
     }
 
     return (
-      // TODO: Android shows all prev fetched data, even when
-      //  selected date has changed to a later date.
-      //  It *should*  only show data from selected date to present.
-      //  ios is working as expected.
-      //    eg: select 7th (today) shows today.
-      //    now select 6th (yesterday). shows yesterday and today
-      //    now select 7th again. Should just show today,
-      //                          but still shows yesterday's data also.
-      // Is this a known issue with the udacifitness-calendar api ?
-      // or is my app preventing proper display, fetch, or store of data ?
-
       <UdaciFitnessCalendar
         // calendar takes 2 callbacks. It checks our (items) data, then calls
         // the appropriate callback. If the data for that date is null or not.
