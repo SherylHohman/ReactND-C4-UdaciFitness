@@ -106,6 +106,17 @@ const Tabs = TabNavigator(
   }
 );
 
+
+// use below for DRY
+const stackScreenNavigationOptions = {
+  // color of the "back" arrow
+  headerTintColor: white,
+  headerStyle: {
+    // background color for the header
+    backgroundColor: primaryColor,
+  }
+};
+
 // This is like react-router in a web app
 // Makes this.props.navigate.navigation() and this.props.navigate
 //  available all components, so they can navigate to the "routes"/screens
@@ -121,26 +132,12 @@ const MainNavigation = StackNavigator(
     },
     EntryDetail: {
       screen: EntryDetail,
-      navigationOptions: {
-        // color of the "back" arrow
-        headerTintColor: white,
-        headerStyle: {
-          // background color for the header
-          backgroundColor: primaryColor,
-        }
-      }
+      navigationOptions: stackScreenNavigationOptions,
     },
     // I am adding this so user can add data for a date other than "today"
     AddEntry: {
       screen: AddEntry,
-      navigationOptions: {
-        // color of the "back" arrow
-        headerTintColor: white,
-        headerStyle: {
-          // background color for the header
-          backgroundColor: primaryColor,
-        }
-      }
+      navigationOptions: stackScreenNavigationOptions,
     },
   }
 );
