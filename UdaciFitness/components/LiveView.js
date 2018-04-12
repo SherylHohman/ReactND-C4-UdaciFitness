@@ -3,6 +3,7 @@ import React , { Component } from 'react';
 import { View, Text, TouchableOpacity,
          ActivityIndicator, StyleSheet
        } from 'react-native';
+import { Permissions } from 'expo';
 import { Foundation } from '@expo/vector-icons';
 import { white, primaryColor } from '../utils/colors';
 
@@ -11,11 +12,31 @@ class LiveView extends Component{
   state = {
     coords:     null,
     direction:  '',
-    status:     null,   //Permissions
+    status:     'undetermined',   //Permissions
   }
 
-  askPermission(){
+  askPermission = () => {
     // TODO: open/enable Phone's Location Permissions
+    Permissions.askAsynch(Permissions.LOCATION)
+      .then(({ status }) => {
+        console.log('status, status');
+        if (status === 'granted'){
+          // TODO: why does this block preceed setState??
+          //    is setState still going to be called, after `return` ?
+          //    who/what is consuming this `return` statement ?
+          return this.setLocation();
+        }
+
+        this.setState({ status });
+      })
+
+      .catch((error) =>
+        console.warn('____error asking for Location permission: ', error)
+      )
+  }
+
+  setLocation = () => {
+    // TODO: read phones Location info (direction, speed, altitude)
   }
 
   render() {
