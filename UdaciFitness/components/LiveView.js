@@ -121,6 +121,9 @@ class LiveView extends Component{
     }
     // I prefer to check this explicitly!! (as opposed to an "else/fall-through" assumption)
     if (status === 'granted'){
+      const { direction, coords } = this.state;
+
+      // Note: ios Simulator -> Debug -> GPS -> (city bicycle ride) to run GPS simulator
       return (
         <View style={styles.container}>
 
@@ -130,7 +133,7 @@ class LiveView extends Component{
             <Text style={styles.header}>You're heading</Text>
             <Text style={styles.direction}>
               {/* TODO: swap Hard Coded values for Live values */}
-              North
+              {direction}
             </Text>
           </View>
 
@@ -141,7 +144,7 @@ class LiveView extends Component{
               </Text>
               <Text style={[styles.subHeader, {color: white}]}>
                 {/* TODO: swap Hard Coded values for Live values */}
-                {200} feet
+                {Math.round(coords.altitude * 3.2808)} Feet
               </Text>
             </View>
 
@@ -151,7 +154,7 @@ class LiveView extends Component{
               </Text>
               <Text style={[styles.subHeader, {color: white}]}>
                 {/* TODO: swap Hard Coded values for Live values */}
-                {300} MPH
+                {(coords.speed * 2.2369).toFixed(1)} MPH
               </Text>
             </View>
           </View>
