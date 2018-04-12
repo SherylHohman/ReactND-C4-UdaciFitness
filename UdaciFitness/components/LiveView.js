@@ -16,13 +16,12 @@ class LiveView extends Component{
   }
 
   askPermission = () => {
-    // TODO: open/enable Phone's Location Permissions
-    Permissions.askAsynch(Permissions.LOCATION)
+    // Opens phone's native dialog, asking to enable Phone's Location Permissions
+    Permissions.askAsync(Permissions.LOCATION)
       .then(({ status }) => {
-        console.log('status, status');
         if (status === 'granted'){
           // TODO: why does this block preceed setState??
-          //    is setState still going to be called, after `return` ?
+          //    is setState still going to be called, after `return` ?  (obviously "yes", but why/how??)
           //    who/what is consuming this `return` statement ?
           return this.setLocation();
         }
@@ -31,7 +30,7 @@ class LiveView extends Component{
       })
 
       .catch((error) =>
-        console.warn('____error asking for Location permission: ', error)
+        console.warn('____error ASKING User for Location permission: ', error)
       )
   }
 
@@ -45,7 +44,7 @@ class LiveView extends Component{
     if (status === null){
       // loading spinner
       return (
-        <ActivityIndicator />
+        <ActivityIndicator style={{marginTop: 30}}/>
       );
     }
     if (status === 'denied'){
@@ -70,14 +69,14 @@ class LiveView extends Component{
 
           <TouchableOpacity
             style={styles.button}
-            onPress={this.onPress}
+            onPress={this.askPermission}
             >
             <Text>Enable</Text>
           </TouchableOpacity>
         </View>
       );
     }
-    // best to check this explicitly!! (as opposed to an "else" assumption)
+    // I prefer to check this explicitly!! (as opposed to an "else/fall-through" assumption)
     if (status === 'granted'){
       return (
         <View style={styles.container}>
