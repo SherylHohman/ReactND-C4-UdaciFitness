@@ -8,8 +8,10 @@ import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 // Helpers, Utils, etc
 import { getMetricMetaInfo, timeToString,
-         getDailyReminderValue
+         getDailyReminderValue,
+         clearLocalNotification, setLocalNotification,
        } from '../utils/helpers';
+
 import { primaryColor, white } from '../utils/colors'
 // api
 import { submitEntry, removeEntry } from '../utils/api';
@@ -55,6 +57,8 @@ class AddEntry extends Component {
     // Save to "DB", actually phone's local storage
     // "DB" (local storage) will have will be "undefined" for today
     removeEntry({ key });
+
+    // TODO: should I set a new notification, if the deleted entry was today??
   }
 
   submit = () => {
@@ -72,6 +76,10 @@ class AddEntry extends Component {
     // Save to "DB", (phone's local storage, actually)
     // redux store (see above) gets the same data (unlike when "reset" is pressed)
     submitEntry({ key, entry });
+
+    // clears notification for today, sets a new one for tomorrow, 8pm
+    clearLocalNotification()
+      .then(setLocalNotification);
 
     // reset state
     this.setState( () => ({
@@ -258,13 +266,18 @@ function mapStoreToProps(store, ownProps){
 
 export default connect(mapStoreToProps)(AddEntry);
 
-  // Warning: AddEntry: `key` is not a prop.
+
+  // NOTE: Notifications cannot be tested on ios Simulator
+    //  neither nor on an ios phone running expo (as per Apple)
+    //  can only be tested on Android.
+
+  // WARNING: AddEntry: `key` is not a prop.
     // Trying to access it will result in `undefined` being returned.
     // If you need to access the same value within the child component,
     // you should pass it as a different prop.
     // (https://fb.me/react-special-props)
 
-  // Note: for alreadyLogged, and the 'today' property (store[someDate].today)
+  // NOTE: for alreadyLogged, and the 'today' property (store[someDate].today)
     // If today's data was reset, then store for today will have an unusual value:
     // it won't be defined, instead it is set to a custome message that is stored
     //  in the property "today".

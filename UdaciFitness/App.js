@@ -7,12 +7,13 @@ import { Constants } from 'expo';  // to get the device-specific statusBar heigh
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 // reducers
 import reducer from './reducers';
-
 // Components
 import AddEntry    from './components/AddEntry';
 import History     from './components/History';
 import EntryDetail from './components/EntryDetail';
 import LiveView from './components/LiveView';
+// Helpers
+import { setLocalNotification } from './utils/helpers'
 // Constants
 import { white, primaryColor, primaryColorDark } from './utils/colors';
 
@@ -145,6 +146,11 @@ const MainNavigation = StackNavigator(
 );
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer)}>
