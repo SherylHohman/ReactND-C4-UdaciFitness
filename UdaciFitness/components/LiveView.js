@@ -1,7 +1,7 @@
 // Libraries
 import React , { Component } from 'react';
 import { View, Text, TouchableOpacity,
-         ActivityIndicator, StyleSheet
+         ActivityIndicator, StyleSheet, Animated,
        } from 'react-native';
 import { Permissions, Location } from 'expo';
 // Helpers
@@ -19,6 +19,8 @@ class LiveView extends Component{
     direction:  '',
     altitudeFeet: 0,
     speedMph    : 0,
+    // For animation
+    bounceValue : new Animated.Value(1),
   }
 
   componentDidMount(){
@@ -74,10 +76,21 @@ class LiveView extends Component{
 
       // second parameter is the callback, called whenever the location updates
       ({ coords }) => {
+        const newDirection = calculateDirection(coords.heading);
+
+        // create animation sequence (animates Compass Direction styling)
+        const { direction, bounceValue } = this.state;
+        if (newDirection !== direction) {
+          Animated.sequence([
+            Animated.timing(bounceValue, {toValue: 1.04, duration: 200}),
+            Animated.spring(bounceValue, {toValue: 1   , friction:   4}),
+          ]).start();
+        }
+
         this.setState(() => ({
           status: 'granted',
           // returns "West", for example
-          direction:    calculateDirection(coords.heading),
+          direction:    newDirection,
           altitudeFeet: Math.round(coords.altitude * 3.2808),
           speedMph:     (coords.speed * 2.2369).toFixed(1),
         }));
@@ -125,7 +138,7 @@ class LiveView extends Component{
     }
     // I prefer to check this explicitly!! (as opposed to an "else/fall-through" assumption)
     if (status === 'granted'){
-      const { direction, speedMph, altitudeFeet } = this.state;
+      const { direction, speedMph, altitudeFeet, bounceValue } = this.state;
 
       // Note: ios Simulator -> Debug -> GPS -> (city bicycle ride) to run GPS simulator
       return (
@@ -133,9 +146,11 @@ class LiveView extends Component{
 
           <View style={styles.directionContainer}>
             <Text style={styles.header}>You're heading</Text>
-            <Text style={styles.direction}>
+            <Animated.Text
+              style={[styles.direction, {transform: [{scale: bounceValue}]}, ]}
+              >
               {direction}
-            </Text>
+            </Animated.Text>
           </View>
 
           <View style={styles.metricContainer}>
