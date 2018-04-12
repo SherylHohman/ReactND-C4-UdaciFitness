@@ -1,20 +1,30 @@
 {
   "expo": {
     "sdkVersion": "26.0.0",
-    "orientation": "portrait",
-    "name": "UdaciFitnessSH",
-    "description": "Basic triathlon tracker, fork of UdacityFitness",
-    "slug": "sh-udacfitness",
+    "name": "SH-UdaciFitness",
+    "description": "Basic triathlon tracker, a custom version of UdacityFitness that allows a user to edit stas for *any* past date",
+    "slug": "sh-udacifitness",
+    "privacy": "public",
     "version": "1.2",
+    "githubUrl": "https://github.com/SherylHohman/ReactND-C4-UdaciFitness",
+    "orientation": "portrait",
+    "primaryColor": "#ff9900",
     "icon": "https://tylermcginnis.com/udacifitness-512.png",
     "notification": {
-      "icon": "https://tylermcginnis.com/udacifitness-45.png"
+      "icon": "https://tylermcginnis.com/udacifitness-45.png",
+      "color": "#ff9900",
     },
     "ios": {
-      "bundleIdentifier": "org.sherylhohman.udacifitness.exp"
+      "bundleIdentifier": "com.yahoo.SherylHohman.udacifitness.exp"
     },
     "android": {
-      "package": "org.sherylhohman.udacifitness.exp"
+      "package": "com.yahoo.SherylHohman.udacifitness.exp"
     }
   }
 }
+
+/* Package names (linked to by expo docs)
+https://stackoverflow.com/questions/6273892/android-package-name-convention
+especially this answer:
+https://stackoverflow.com/a/12502019/5411817
+*/
