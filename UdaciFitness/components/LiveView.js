@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity,
          ActivityIndicator, StyleSheet
        } from 'react-native';
 import { Permissions } from 'expo';
+// Icons, Constants
 import { Foundation } from '@expo/vector-icons';
 import { white, primaryColor } from '../utils/colors';
 
@@ -12,8 +13,27 @@ class LiveView extends Component{
   state = {
     coords:     null,
     direction:  '',
-    status:     'undetermined',   //Permissions
+    status:     null,   //Permissions
   }
+
+  componentDidMount(){
+    Permissions.getAsync(Permissions.LOCATION)
+      .then(({ status }) => {
+        if (status === 'granted'){
+          // TODO: why does this block preceed setState??
+          //    is setState still going to be called, after `return` ?  (obviously "yes", but why/how??)
+          //    who/what is consuming this `return` statement ?
+          return this.setLocation();
+        }
+
+        this.setState({ status });
+      })
+
+      .catch((error) => {
+        console.warn('____error GETTING Location permission: ', error)
+        this.setState({ status: 'undetermined'});
+      })
+    }
 
   askPermission = () => {
     // Opens phone's native dialog, asking to enable Phone's Location Permissions
