@@ -13,9 +13,12 @@ import { white, primaryColor } from '../utils/colors';
 class LiveView extends Component{
 
   state = {
-    coords:     null,
+    //Permissions
+    status:     null,
+    // Location Data
     direction:  '',
-    status:     null,   //Permissions
+    altitudeFeet: 0,
+    speedMph    : 0,
   }
 
   componentDidMount(){
@@ -72,10 +75,11 @@ class LiveView extends Component{
       // second parameter is the callback, called whenever the location updates
       ({ coords }) => {
         this.setState(() => ({
-          coords,
           status: 'granted',
           // returns "West", for example
-          direction: calculateDirection(coords.heading),
+          direction:    calculateDirection(coords.heading),
+          altitudeFeet: Math.round(coords.altitude * 3.2808),
+          speedMph:     (coords.speed * 2.2369).toFixed(1),
         }));
       }
     );
@@ -121,18 +125,15 @@ class LiveView extends Component{
     }
     // I prefer to check this explicitly!! (as opposed to an "else/fall-through" assumption)
     if (status === 'granted'){
-      const { direction, coords } = this.state;
+      const { direction, speedMph, altitudeFeet } = this.state;
 
       // Note: ios Simulator -> Debug -> GPS -> (city bicycle ride) to run GPS simulator
       return (
         <View style={styles.container}>
 
-        <Text>{JSON.stringify(this.state)}</Text>
-
           <View style={styles.directionContainer}>
             <Text style={styles.header}>You're heading</Text>
             <Text style={styles.direction}>
-              {/* TODO: swap Hard Coded values for Live values */}
               {direction}
             </Text>
           </View>
@@ -143,8 +144,7 @@ class LiveView extends Component{
                 Altitude
               </Text>
               <Text style={[styles.subHeader, {color: white}]}>
-                {/* TODO: swap Hard Coded values for Live values */}
-                {Math.round(coords.altitude * 3.2808)} Feet
+                {altitudeFeet} Feet
               </Text>
             </View>
 
@@ -153,8 +153,7 @@ class LiveView extends Component{
                 Speed
               </Text>
               <Text style={[styles.subHeader, {color: white}]}>
-                {/* TODO: swap Hard Coded values for Live values */}
-                {(coords.speed * 2.2369).toFixed(1)} MPH
+                {speedMph} MPH
               </Text>
             </View>
           </View>
