@@ -46,7 +46,7 @@ class EntryDetail extends Component{
     // Thus, we tell the component to only update if
     // we have actual metric information for the day in question
 
-    return nextProps.entryId && nextProps.metrice && !nextProps.metrics.today;
+    return (nextProps.entryId && nextProps.metrics && !nextProps.metrics.today);
 
     // alternatively, we could render a spinner if do not have metric data
   }
