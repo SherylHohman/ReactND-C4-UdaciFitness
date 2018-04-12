@@ -3,7 +3,9 @@ import React , { Component } from 'react';
 import { View, Text, TouchableOpacity,
          ActivityIndicator, StyleSheet
        } from 'react-native';
-import { Permissions } from 'expo';
+import { Permissions, Location } from 'expo';
+// Helpers
+import { calculateDirection } from '../utils/helpers';
 // Icons, Constants
 import { Foundation } from '@expo/vector-icons';
 import { white, primaryColor } from '../utils/colors';
@@ -55,8 +57,29 @@ class LiveView extends Component{
   }
 
   setLocation = () => {
-    // TODO: read phones Location info (direction, speed, altitude)
-  }
+    // Read phone Location info (direction, speed, altitude)
+    // Then update State
+
+    Location.watchPositionAsync(
+      // first parameter is the Options
+      {
+        enableHighAccuracy: true,
+        // how often to poll for changes in phone location
+        timeInterval: 1,
+        distanceInterval: 1,
+      },
+
+      // second parameter is the callback, called whenever the location updates
+      ({ coords }) => {
+        this.setState(() => ({
+          coords,
+          status: 'granted',
+          // returns "West", for example
+          direction: calculateDirection(coords.heading),
+        }));
+      }
+    );
+}
 
   render() {
     const status = this.state.status;
@@ -100,6 +123,8 @@ class LiveView extends Component{
     if (status === 'granted'){
       return (
         <View style={styles.container}>
+
+        <Text>{JSON.stringify(this.state)}</Text>
 
           <View style={styles.directionContainer}>
             <Text style={styles.header}>You're heading</Text>
