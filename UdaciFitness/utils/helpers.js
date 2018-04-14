@@ -154,6 +154,7 @@ export function calculateDirection (heading) {
   return direction
 }
 
+// convert Date to dateFormat required by udacityfitness-calendar module
 export function timeToString (time = Date.now()) {
   const date = new Date(time)
   const todayUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))

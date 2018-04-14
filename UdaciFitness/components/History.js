@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
-    // account for shadow on ios
     // so bottom background of UdaciFitnessCalendar does Not get Cut Off
+    // (difference in numbers accounts for shadow on ios)
     marginBottom:  Platform.OS === 'ios' ? 12 : 10,
   },
   noDataText: {
@@ -182,3 +182,20 @@ function mapStateToProps(store){
 }
 
 export default connect(mapStateToProps)(History)
+
+
+// DATE CONVERSIONS
+  // (passing date to AddEntry component via StackNavigator):
+  // https://codeofmatt.com/2015/06/17/javascript-date-parsing-changes-in-es6/
+
+  // since time zone is not indicated, parse will interpred the date as
+  //  a LOCAL time zone. But it was computed as a UTC time
+
+  // parse takes string and returns Unix EPOCHS.
+  // format of the given string determines what timezone parse interprets the string as
+  //  the assumed timezone affects the number of seconds spit out as the epoch.
+
+  // parse will return the formattedDate as (unix epoch) LOCAL Time Zone
+  // timeToString expects UTC, so eg. "date today" could display as "date yesterday"
+  // Need to add timezone shift to parsed epochs before sending it to timeTostring()
+

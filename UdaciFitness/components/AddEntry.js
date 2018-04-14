@@ -288,4 +288,3 @@ export default connect(mapStoreToProps)(AddEntry);
     // If no values have been previously saved for this date, then
     // store[someDate] will NOT EVEN EXIST ("undefined")
     // REM "someDate" is a date in the format required by the calendar library).
-

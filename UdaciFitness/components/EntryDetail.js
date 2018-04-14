@@ -45,10 +45,7 @@ class EntryDetail extends Component{
     //  then MetricCard will break, as it can only render actual metric data.
     // Thus, we tell the component to only update if
     // we have actual metric information for the day in question
-
     return (nextProps.entryId && nextProps.metrics && !nextProps.metrics.today);
-
-    // alternatively, we could render a spinner if do not have metric data
   }
 
   reset(){
@@ -59,17 +56,18 @@ class EntryDetail extends Component{
       key: entryId,
     });
 
-    // store gets a slightly nuanced version, compared to the DB
+    // store gets a slightly nuanced version, compared to the DB.
     // if date is !today,
-    //  store gets the value of: null, but does not delete it (as the DB does)
+    //  store gets the value of: null, but does not delete the item (the DB does delete the item)
     // and if the entryId date *is* today,
-    //  store instead gets a reminder message as today's value
+    //  store instead gets a key called "today" whose value is a "reminder" message
     const value = (entryId === timeToString())
       ? getDailyReminderValue()
       : null
     const entry = {
       [entryId] : value
     } ;
+    // replace the value in store (ie remove the data)
     remove(entry);
 
     // this.props.navigation.goBack();
@@ -104,28 +102,25 @@ function mapDispatchToProps(dispatch, { navigation }){
   return {
     remove: (entry) => dispatch(addEntry(entry)),
 
-    // convenience func reference
-    // (could just call this.props.navigation.goBack(), and not use mDTP)
+    // (could just call this.props.navigation.goBack(), rather than use mapDispatchToProps)
     goBack: () => navigation.goBack(),
   }
 }
 
 function mapStoreToProps(store, { navigation }){
   // navigation is a prop automatically passed in by StackNavigator
-  // props passed in/created by me from the "calling" component
-  //  when I called navigation.navigate()
-  //  get placed inside navigation.state.params by StackNavigator
-    const { entryId } = navigation.state.params;
+  //  props I pass in via the call to navigation.navigate(),
+  //  get placed inside `props.navigation.state.params` by StackNavigator
+  const { entryId } = navigation.state.params;
 
-    // (store === metrics data)
-    // get the metrics data saved for this date
-    const metrics = store[entryId];
+  // metrics data saved for this date
+  const metrics = store[entryId];
 
-    return {
-      // date we want Entry Detail for
-      entryId,
-      metrics,
-    }
+  return {
+    // date, in the format used by the DB as this date's key
+    entryId,
+    metrics,
+  }
 }
 
 export default connect(mapStoreToProps, mapDispatchToProps)(EntryDetail)
