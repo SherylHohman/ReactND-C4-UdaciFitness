@@ -59,7 +59,7 @@ const Tabs = TabNavigator(
       // component to load
       screen: AddEntry,
       navigationOptions: {
-        tabBarLabel: 'Add Entry',
+        tabBarLabel: 'Add Today\'s Info',
         tabBarIcon: ({ tintColor }) => // icons only show in ios
           <FontAwesome name='plus-square' size={30} color={tintColor} />
       },
