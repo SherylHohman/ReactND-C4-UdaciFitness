@@ -148,7 +148,7 @@ class AddEntry extends Component {
     return (
       <View style={styles.container}>
 
-        <DateHeader date={new Date(Date.parse(this.props.entryId)).toLocaleDateString()} />
+        <DateHeader date={this.props.formattedDate} />
 
         {Object.keys(metaInfo).map(key => {
           const { displayName, getIcon, type, ...rest } = metaInfo[key];
@@ -236,30 +236,37 @@ const styles = StyleSheet.create({
 });
 
 function mapStoreToProps(store, ownProps){
-  // App defaults to set key to today's date, in the required format.
-  // App in the coursework only allows one to add data for the current day.
-  // To allow adding data for a date that is not today,
-  //   I'm adding an optional param to be passed in: entryId
-  //   entryId is the date we want to edit the data for.
-  //   if it is not passed in, we assume it to be today, the default app behavior
 
+  let entryId, formattedDate;
   const dateToday = timeToString();
-  const { entryId } = ownProps.navigation.state.params;
-  const key = entryId || dateToday;
 
-  const isToday = (key === dateToday);
+  if (ownProps.navigation.state.params) {
+      // got here by clicking on a card from History component
+      entryId       = ownProps.navigation.state.params.entryId;
+      formattedDate = ownProps.navigation.state.params.formattedDate;
+  }
+  else {
+      // got here by clicking on EditEntry TAB.
+      //   date is NOT passed in - this tab ALWAYS modifies TODAY's data
+      // TODO: add date selected on Calendar to Store, so EditEntry Tab can
+      //   edit data for the Selected Date, whether that is Today or Not !
+      entryId       = dateToday;
+      formattedDate = new Date().toLocaleDateString();
+  }
 
+  const isToday = (entryId === dateToday);
+
+  // see explanation below
   const alreadyLogged = (
-    (!isToday && store[key]) ||
-    (isToday && store[dateToday] && (typeof store[dateToday].today === 'undefined'))
+    (!isToday && store[entryId])  ||
+    ( isToday && store[dateToday] && (typeof store[dateToday].today === 'undefined'))
   );
 
-  console.log('key:', key, 'isToday:', isToday, 'alreadyLogged:', alreadyLogged);
-
   return {
-    entryId: key,   // cannot have a property called "key" on props. See notes below.
+    entryId,
     isToday,
     alreadyLogged,
+    formattedDate,
   }
 }
 

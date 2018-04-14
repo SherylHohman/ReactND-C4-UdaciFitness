@@ -47,18 +47,22 @@ class History extends Component {
       <View style={styles.item}>
         {today
           ? <View>
-              <DateHeader date={formattedDate} />
-              <Text style={styles.noDataText}>
-                {today}
-              </Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate(
+                  'AddEntry',
+                  /* below value will be passed in to the 'EntryDetail' component (above) */
+                  /* as: this.props.navigation.state.params.entryId*/
+                  { entryId: key, formattedDate, }
+                )}
+                >
+                <DateHeader date={formattedDate} />
+                <Text style={styles.noDataText}>
+                  {today}
+                </Text>
+              </TouchableOpacity>
             </View>
           : <View>
-              <DateHeader date={formattedDate} />
               <TouchableOpacity
-                /* this.props.navigation.navigate is automatically passed in */
-                /* by MainNavigation (a StackNavigator component) defined in App.js */
-                /* any "route" (key Name) defined in MainNavigation */
-                /* can be navigated to via its navigate() method */
                 onPress={() => this.props.navigation.navigate(
                   'EntryDetail',
                   /* below value will be passed in to the 'EntryDetail' component (above) */
@@ -66,6 +70,7 @@ class History extends Component {
                   { entryId: key }
                 )}
                 >
+                <DateHeader date={formattedDate} />
                 <MetricCard
                   metrics={metrics}
                   date={formattedDate}
@@ -76,33 +81,40 @@ class History extends Component {
       </View>
     )
   renderEmptyDate = (formattedDate) => {
-    // if store has "today" value (the generic message to remember to log data today)
-    // this value is not saved to "DB"/Async
-    // it is only on the current date, and only in the store.
 
-    // To allow adding data for this date.
-    // calendar does not pass in 'key' (this date, in the format required for calendar)
-    //  for this callback, so re-create it here:
-    //  Convert formattedDate to timeToString format.
-    //  (formattedDate is a Date.toLocalDateFormat format, so parse *should* work)
-    const key = timeToString(Date.parse(formattedDate));
+    // calcuate `key` (entryId - it is the date format used by calendar module)
+    //   calendar passes "key" to renderItem, but NOT to renderEmptyDate
+    //     So I recreate it here (and call it 'key' for consistency),
+    //     even though in all cases *I* pass it to child components as "entryId"
+    //   parse(formattedDate) spits out epocs, interpreted as LOCAL time, yet
+    //   timeToString needs Date of UTC time.
+    //   localToUTC is the offset in millisecs (unix epochs) to convert local to UTC
+    //   key (aka entryId) accurately converted formattedDate to UTC, and in the
+    //     string format used by the DB/store/calendar
+    //   Clicking (on this "card") takes user to the
+    //     AddEntry page *for this entryId date* so user can add data for *any*
+    //     (past) date that does Not have saved data.
+
+    const localToUTC = new Date().getTimezoneOffset() * 60000;
+    const key = timeToString(new Date(Date.parse(formattedDate)+localToUTC));
 
     return (
       <View style={styles.item}>
-        <DateHeader date={formattedDate} />
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate(
-              'AddEntry',
-              /* below value will be passed into the component */
-              /* as: this.props.navigation.state.params.entryId*/
-              { entryId: key }
-            )}
-            >
-            <Text style={styles.noDataText}>
-              No Data Logged for this Date {'\n'}
-              Click to Add
-            </Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate(
+            'AddEntry',
+            /* below value will be passed into the component */
+            /* at: this.props.navigation.state.params */
+            { entryId: key,
+              formattedDate,
+            }
+          )}
+          >
+          <DateHeader date={formattedDate} />
+          <Text style={styles.noDataText}>
+            No Data Logged for this Date {'\n'}
+          </Text>
+        </TouchableOpacity>
       </View>
     )
   }
