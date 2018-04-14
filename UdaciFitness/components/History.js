@@ -34,7 +34,7 @@ class History extends Component {
         // don't have any info entered today
         // so set redux store for today to be "today: don't forget..."
         // Note: we don't put this value into the DB, only into the redux store
-        if (!entries[timeToString]){
+        if (!entries[timeToString()]){
           dispatch(addEntry({
             [timeToString()]: getDailyReminderValue()
           }));
