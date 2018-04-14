@@ -42,7 +42,7 @@ class AddEntry extends Component {
     // store for today will have an object with just a "today" property on it
     // (that contains a user mesage). This does *not* get saved to the DB.
     // (in contrast, when "submit" is pressed, store and "DB" have the same value: entry)
-    if (isToday) {
+    if (this.props.isToday) {
       this.props.dispatch(addEntry({
         [key]: getDailyReminderValue(),
       }));
@@ -66,7 +66,6 @@ class AddEntry extends Component {
     const key = this.props.entryId;
     const entry = this.state;
 
-    // Clear local notification:
     // Update Redux store
     // replace 'today' property with metric stats from state
     this.props.dispatch(addEntry({
@@ -246,8 +245,8 @@ function mapStoreToProps(store, ownProps){
 
   const dateToday = timeToString();
   const { entryId } = ownProps.navigation.state.params;
+  const key = entryId || dateToday;
 
-  const key = entryId || ownProps.entryId || dateToday;
   const isToday = (key === dateToday);
 
   const alreadyLogged = (
@@ -267,15 +266,16 @@ function mapStoreToProps(store, ownProps){
 export default connect(mapStoreToProps)(AddEntry);
 
 
-  // NOTE: Notifications cannot be tested on ios Simulator
-    //  neither nor on an ios phone running expo (as per Apple)
+  // NOTE: Notifications cannot be tested on ios
+    //  neither in Simulator, nor on an ios phone running expo (as per Apple)
     //  can only be tested on Android.
 
-  // WARNING: AddEntry: `key` is not a prop.
+  // "WARNING: AddEntry: `key` is not a prop.
     // Trying to access it will result in `undefined` being returned.
     // If you need to access the same value within the child component,
     // you should pass it as a different prop.
     // (https://fb.me/react-special-props)
+    // "
 
   // NOTE: for alreadyLogged, and the 'today' property (store[someDate].today)
     // If today's data was reset, then store for today will have an unusual value:
