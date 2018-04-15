@@ -36,7 +36,7 @@ class EntryDetail extends Component{
   }
 
   reset(){
-    const { goBack, entryId, remove } = this.props;
+    const { goBack, entryId, updateStore } = this.props;
 
     // delete this entry from the "database" (AsynchStorage)
     removeEntry({
@@ -46,14 +46,11 @@ class EntryDetail extends Component{
     const value = (entryId === timeToString())
       ? getDailyReminderValue()
       : null
-    const entry = {
-      [entryId] : value
-    } ;
-    // replace the value in store (ie remove the data)
-    remove(entry);
+    updateStore({
+      [entryId] : value,
+    });
 
-    // this.props.navigation.goBack();
-    goBack();
+    this.props.navigation.goBack();
   }
 
   render () {
@@ -82,23 +79,17 @@ const styles = StyleSheet.create({
 function mapDispatchToProps(dispatch, { navigation }){
   const { entryId } = navigation.state.params;
   return {
-    remove: (entry) => dispatch(addEntry(entry)),
-
-    // (could just call this.props.navigation.goBack(), rather than use mapDispatchToProps)
-    goBack: () => navigation.goBack(),
+    updateStore: (entry) => dispatch(addEntry(entry)),
   }
 }
 
 function mapStoreToProps(store, { navigation }){
-  const { entryId } = navigation.state.params;
-
-  // metrics data saved for this date
-  const metrics = store[entryId];
+  entryId = navigation.state.params.entryId;
+  metrics = store[entryId];
 
   return {
-    // date, in the format used by the DB as this date's key
-    entryId,
-    metrics,
+    entryId,    // date, in the format used by the DB as this date's key
+    metrics,    // metrics data saved for this date
   }
 }
 
