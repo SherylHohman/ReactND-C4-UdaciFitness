@@ -50,7 +50,7 @@ class History extends Component {
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate(
                   'AddEntry',
-                  /* below value will be passed in to the 'EntryDetail' component (above) */
+                  /* below value will be passed in to the 'AddEntry' component (above) */
                   /* as: this.props.navigation.state.params.entryId*/
                   { entryId: key, formattedDate, }
                 )}
@@ -82,19 +82,7 @@ class History extends Component {
     )
   renderEmptyDate = (formattedDate) => {
 
-    // calcuate `key` (entryId - it is the date format used by calendar module)
-    //   calendar passes "key" to renderItem, but NOT to renderEmptyDate
-    //     So I recreate it here (and call it 'key' for consistency),
-    //     even though in all cases *I* pass it to child components as "entryId"
-    //   parse(formattedDate) spits out epocs, interpreted as LOCAL time, yet
-    //   timeToString needs Date of UTC time.
-    //   localToUTC is the offset in millisecs (unix epochs) to convert local to UTC
-    //   key (aka entryId) accurately converted formattedDate to UTC, and in the
-    //     string format used by the DB/store/calendar
-    //   Clicking (on this "card") takes user to the
-    //     AddEntry page *for this entryId date* so user can add data for *any*
-    //     (past) date that does Not have saved data.
-
+    // derive "key" from the formattedDate
     const localToUTC = new Date().getTimezoneOffset() * 60000;
     const key = timeToString(new Date(Date.parse(formattedDate)+localToUTC));
 
@@ -125,7 +113,7 @@ class History extends Component {
     if (!this.state.ready){
         return (
           <View>
-            {/* As Per docs - it's a blank scree, not a loading spinner */}
+            {/* As Per docs - it's a blank screen, not a loading spinner */}
             <AppLoading />
             <Text style={styles.noDataText}>Loading your data..</Text>
           </View>
@@ -134,9 +122,12 @@ class History extends Component {
 
     return (
       <UdaciFitnessCalendar
-        // calendar takes 2 callbacks. It checks our (items) data, then calls
-        // the appropriate callback. If the data for that date is null or not.
-        // It will render all info from the selected date to the present day.
+        // calendar takes 2 callbacks, and a list of data.
+        // For every date between the selected date and today, calendar will
+        //   call renderItem method if there is an entry in items for that date, or
+        //   call renderEmptyDate items does Not have an entry for that date (undefined).
+        // In this way, a "card" will be rendered for all dates
+        //  from the selected date to the present day.
         items={entries}
         renderItem={this.renderItem}
         renderEmptyDate={this.renderEmptyDate}
@@ -172,7 +163,7 @@ const styles = StyleSheet.create({
     paddingTop:    12,
     paddingBottom: 10,
     // so bottom background of UdaciFitnessCalendar does Not get Cut Off
-    // account for shadow on ios
+    // (difference in numbers accounts for shadow on ios)
     marginBottom:  Platform.OS === 'ios' ? 12 : 10,
   },
 });
@@ -211,3 +202,16 @@ export default connect(mapStateToProps)(History)
   // timeToString expects UTC, so eg. "date today" could display as "date yesterday"
   // Need to add timezone shift to parsed epochs before sending it to timeTostring()
 
+// renderEmptyDate
+  // calcuate `key` (entryId - it is the date format used by calendar module)
+  //   calendar passes "key" to renderItem, but NOT to renderEmptyDate
+  //     So I recreate it here (and call it 'key' for consistency),
+  //     even though in all cases *I* pass it to child components as "entryId"
+  //   parse(formattedDate) spits out epocs, interpreted as LOCAL time, yet
+  //   timeToString needs Date of UTC time.
+  //   localToUTC is the offset in millisecs (unix epochs) to convert local to UTC
+  //   key (aka entryId) accurately converted formattedDate to UTC, and in the
+  //     string format used by the DB/store/calendar
+  //   Clicking (on this "card") takes user to the
+  //     AddEntry page *for this entryId date* so user can add data for *any*
+  //     (past) date that does Not have saved data.

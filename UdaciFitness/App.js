@@ -24,7 +24,7 @@ console.disableYellowBox = true;
 function UdaciStatusBar({ backgroundColor, ...props }){
   // color blends with default statusbar color;
   //  default is..
-  //  on ios: white => statusBarColor === background color
+  //  on ios:  white => statusBarColor === background color
   //  android: gray => statusBarColor is Darker Blend of background color
   return (
     <View style={{
@@ -41,7 +41,7 @@ function UdaciStatusBar({ backgroundColor, ...props }){
   );
 }
 
-// this is like a nav bar in a web app
+// this is analogous to a nav bar in a web app
 // returns a component
 const Tabs = TabNavigator(
   // this first argument defines the tabs
@@ -85,10 +85,10 @@ const Tabs = TabNavigator(
       // no effect on ios; on android this color blends with tab color
       pressColor: white,
       indicatorStyle: {
-          // little underline thingy on selected tab in android (default: yellow)
-          backgroundColor: primaryColorDark,
-          // defaults to 2
-          height: 3,
+        // little underline thingy on selected tab in android (default: yellow)
+        backgroundColor: primaryColorDark,
+        // defaults to 2
+        height: 3,
       },
       style: {
         height: 56,
@@ -106,8 +106,7 @@ const Tabs = TabNavigator(
   }
 );
 
-
-// use below for DRY
+// DRY
 const stackScreenNavigationOptions = {
   // color of the "back" arrow
   headerTintColor: white,
@@ -117,15 +116,15 @@ const stackScreenNavigationOptions = {
   }
 };
 
-// This is like react-router in a web app
+// This is analogous to react-router in a web app
 // Makes this.props.navigate.navigation() and this.props.navigate
-//  available all components, so they can navigate to the "routes"/screens
+//  available to all components, so they can navigate to the "routes"/screens
 //    defined below
 //  Calling this.props.navigate.navigation('Home'), for example,
 //    will navigate the App to the (Home screen) aka render the Tabs component.
 // Returns a component
 const MainNavigation = StackNavigator(
-  //  This is like defining Routes in a web app
+  //  This is analogous to defining Routes in a web app
   {
     Home: {
       screen: Tabs,

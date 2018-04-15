@@ -136,7 +136,7 @@ class LiveView extends Component{
         </View>
       );
     }
-    // I prefer to check this explicitly!! (as opposed to an "else/fall-through" assumption)
+    // I prefer to check GRANTED explicitly!! (as opposed to an "else/fall-through" assumption)
     if (status === 'granted'){
       const { direction, speedMph, altitudeFeet, bounceValue } = this.state;
 

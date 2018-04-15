@@ -41,7 +41,6 @@ class AddEntry extends Component {
     // Update Redux
     // store for today will have an object with just a "today" property on it
     // (that contains a user mesage). This does *not* get saved to the DB.
-    // (in contrast, when "submit" is pressed, store and "DB" have the same value: entry)
     if (this.props.isToday) {
       this.props.dispatch(addEntry({
         [key]: getDailyReminderValue(),
@@ -49,16 +48,13 @@ class AddEntry extends Component {
     }
 
     // Return to History id got here from a card,
-    // or go Home, if got here by clicking on 'AddEntry' Tab
+    // Return to Home, if got here by clicking on 'AddEntry' Tab
     //  (b/c Home is the only location that shows the 'AddEntry' Tab)
     //  (If that changes, this line may need to be edited)
     this.props.navigation.goBack();
 
     // Save to "DB", actually phone's local storage
-    // "DB" (local storage) will have will be "undefined" for today
     removeEntry({ key });
-
-    // TODO: should I set a new notification, if the deleted entry was today??
   }
 
   submit = () => {
@@ -67,16 +63,14 @@ class AddEntry extends Component {
     const entry = this.state;
 
     // Update Redux store
-    // replace 'today' property with metric stats from state
     this.props.dispatch(addEntry({
       [key]: entry,
     }));
 
     // Save to "DB", (phone's local storage, actually)
-    // redux store (see above) gets the same data (unlike when "reset" is pressed)
     submitEntry({ key, entry });
 
-    // clears notification for today, sets a new one for tomorrow, 8pm
+    // clears notification for today, sets a new one for tomorrow, (8pm)
     clearLocalNotification()
       .then(setLocalNotification);
 
@@ -89,8 +83,8 @@ class AddEntry extends Component {
       eat:   0,
     }));
 
-    // Returns to History if got here from a card,
-    // or goes Home, if got here by clicking on 'AddEntry' Tab
+    // Returns to History if got here from a card, or
+    // Returns Home, if got here by clicking on 'AddEntry' Tab
     //  (b/c Home is the only location that shows the 'AddEntry' Tab)
     //  (If that changes, this line may need to be edited)
     this.props.navigation.goBack();
